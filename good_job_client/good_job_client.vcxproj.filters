@@ -1,0 +1,103 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{2d90366b-8886-4569-9ed3-ef6ec3e6e539}</UniqueIdentifier>
+      <Extensions>cpp;c;cxx;def;odl;idl;hpj;bat;asm</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{469737fa-40c0-447d-a16e-7fa776d68ecc}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{4a19ce1b-2d96-4115-be20-c8091b2f288e}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;jpg;jpeg;jpe;manifest</Extensions>
+    </Filter>
+    <Filter Include="Utils">
+      <UniqueIdentifier>{f5c685b4-0363-4449-83c7-8d8463e89bdc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SkinLib">
+      <UniqueIdentifier>{cb918e0c-7cfe-4a3c-b457-534fa7b0d467}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI">
+      <UniqueIdentifier>{e73d504b-ba14-43bb-a626-2081d8be9eb2}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="good_job_client.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ImageEx.cpp">
+      <Filter>Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="Path.cpp">
+      <Filter>Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="XmlDocument.cpp">
+      <Filter>Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="SkinLib\SkinButton.cpp">
+      <Filter>SkinLib</Filter>
+    </ClCompile>
+    <ClCompile Include="SkinLib\SkinEdit.cpp">
+      <Filter>SkinLib</Filter>
+    </ClCompile>
+    <ClCompile Include="SkinLib\SkinManager.cpp">
+      <Filter>SkinLib</Filter>
+    </ClCompile>
+    <ClCompile Include="LogIn_dlg.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="stdafx.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MainDlg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AboutDlg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\WTL10_10320_Release\Include\atlres.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ImageEx.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Path.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="XmlDocument.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="SkinLib\SkinButton.h">
+      <Filter>SkinLib</Filter>
+    </ClInclude>
+    <ClInclude Include="SkinLib\SkinEdit.h">
+      <Filter>SkinLib</Filter>
+    </ClInclude>
+    <ClInclude Include="SkinLib\SkinManager.h">
+      <Filter>SkinLib</Filter>
+    </ClInclude>
+    <ClInclude Include="LogIn_dlg.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="good_job_client.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="res\good_job_client.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+  </ItemGroup>
+</Project>
