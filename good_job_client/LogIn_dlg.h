@@ -11,8 +11,8 @@ public:
     enum { IDD = IDD_DIALOG_LogIn
     };
 
-    BEGIN_MSG_MAP(LogIn_Dialog)
         MESSAGE_HANDLER(WM_INITDIALOG, OnInitDialog)
+        COMMAND_ID_HANDLER(IDOK, OnOK)
         COMMAND_ID_HANDLER(IDCANCEL, OnCancel)
         COMMAND_ID_HANDLER_EX(ID_LogIn, OnBTN_LogIn)
     END_MSG_MAP()
@@ -21,7 +21,6 @@ public:
     void CenterWindow(HWND hWnd = NULL);
     LRESULT OnOK(WORD wNotifyCode, WORD wID, HWND hWndCtl, BOOL& bHandled);
     LRESULT OnCancel(WORD wNotifyCode, WORD wID, HWND hWndCtl, BOOL& bHandled);
-    void OnBTN_LogIn(UINT uNotifyCode, int nID, CWindow wndCtl);
     void InitUi();
 
 public:
