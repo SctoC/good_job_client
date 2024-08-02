@@ -39,9 +39,12 @@ void SendRequestTread::send_threadfuntion()
 		mtx.lock();
 		//此处可以优化为条件变量
 		while (SendQue.empty()) {
+			mtx.unlock();
 			if (_stop)
 				return;
+			mtx.unlock();
 		}
+		mtx.lock();
 		temp = SendQue.front();
 		SendQue.pop();
 		mtx.unlock();
