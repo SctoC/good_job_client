@@ -1,10 +1,85 @@
 #include "stdafx.h"
 #include "MainDlg.h"
 
-
-void CMainDlg::OnBnClickedLogin(UINT uNotifyCode, int nID, CWindow wndCtl)
+BOOL CMainDlg::PreTranslateMessage(MSG* pMsg)
 {
-	// TODO: 在此添加控件通知处理程序代码
-	int a = 1;
-	
+	return CWindow::IsDialogMessage(pMsg);
+}
+
+BOOL CMainDlg::OnIdle()
+{
+	UIUpdateChildWindows();
+	return FALSE;
+}
+LRESULT CMainDlg::OnInitDialog(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, BOOL& /*bHandled*/)
+{
+	// center the dialog on the screen
+	CenterWindow();
+
+	// set icons
+	HICON hIcon = AtlLoadIconImage(IDR_MAINFRAME, LR_DEFAULTCOLOR, ::GetSystemMetrics(SM_CXICON), ::GetSystemMetrics(SM_CYICON));
+	SetIcon(hIcon, TRUE);
+	HICON hIconSmall = AtlLoadIconImage(IDR_MAINFRAME, LR_DEFAULTCOLOR, ::GetSystemMetrics(SM_CXSMICON), ::GetSystemMetrics(SM_CYSMICON));
+	SetIcon(hIconSmall, FALSE);
+
+	// register object for message filtering and idle updates
+	CMessageLoop* pLoop = _Module.GetMessageLoop();
+	ATLASSERT(pLoop != NULL);
+	pLoop->AddMessageFilter(this);
+	pLoop->AddIdleHandler(this);
+
+	UIAddChildWindowContainer(m_hWnd);
+
+	CString account;
+	CString pwd;
+	LogIn_Dialog dlg(account, pwd);
+	if (dlg.DoModal() == IDOK)
+	{
+		//发送请求。
+		int a = 1;
+	}
+	else
+	{
+		CloseDialog(IDOK);
+		return 0;
+	}
+
+	return TRUE;
+}
+
+LRESULT CMainDlg::OnDestroy(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, BOOL& /*bHandled*/)
+{
+	// unregister message filtering and idle updates
+	CMessageLoop* pLoop = _Module.GetMessageLoop();
+	ATLASSERT(pLoop != NULL);
+	pLoop->RemoveMessageFilter(this);
+	pLoop->RemoveIdleHandler(this);
+
+	return 0;
+}
+
+LRESULT CMainDlg::OnAppAbout(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/)
+{
+
+
+	return 0;
+}
+
+LRESULT CMainDlg::OnOK(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOOL& /*bHandled*/)
+{
+	// TODO: Add validation code 
+	CloseDialog(wID);
+	return 0;
+}
+
+LRESULT CMainDlg::OnCancel(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOOL& /*bHandled*/)
+{
+	CloseDialog(wID);
+	return 0;
+}
+
+void CMainDlg::CloseDialog(int nVal)
+{
+	DestroyWindow();
+	::PostQuitMessage(nVal);
 }
