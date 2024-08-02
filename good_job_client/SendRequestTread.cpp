@@ -68,6 +68,7 @@ void SendRequestTread::HandleRequest(Request* Req)
 void SendRequestTread::HandleLogInRequest(LogIn_Request* Req)
 {
 	unsigned int size = Req->account.size() + Req->pwd.size();
+	//const char* message_len = (const char*)&size;
 	const char* message_len = reinterpret_cast<const char*>(&size);
 
 	std::string sendbuf(message_len, sizeof(size));
