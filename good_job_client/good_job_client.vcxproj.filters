@@ -22,6 +22,12 @@
     <Filter Include="UI">
       <UniqueIdentifier>{e73d504b-ba14-43bb-a626-2081d8be9eb2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Treads">
+      <UniqueIdentifier>{a0af7d64-7786-4e87-9f10-002947d42f50}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="message">
+      <UniqueIdentifier>{39d1f1e0-b614-4b9c-b40d-bbbbabc0bfa0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -50,6 +56,12 @@
     </ClCompile>
     <ClCompile Include="LogIn_dlg.cpp">
       <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="SendRequestTread.cpp">
+      <Filter>Treads</Filter>
+    </ClCompile>
+    <ClCompile Include="socket.cpp">
+      <Filter>Treads</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -88,6 +100,15 @@
     </ClInclude>
     <ClInclude Include="LogIn_dlg.h">
       <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="SendRequestTread.h">
+      <Filter>Treads</Filter>
+    </ClInclude>
+    <ClInclude Include="socket.h">
+      <Filter>Treads</Filter>
+    </ClInclude>
+    <ClInclude Include="message.h">
+      <Filter>message</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

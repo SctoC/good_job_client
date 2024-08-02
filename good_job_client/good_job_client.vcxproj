@@ -202,9 +202,13 @@
     <ClCompile Include="ImageEx.cpp" />
     <ClCompile Include="LogIn_dlg.cpp" />
     <ClCompile Include="Path.cpp" />
+    <ClCompile Include="SendRequestTread.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="SkinLib\SkinButton.cpp" />
     <ClCompile Include="SkinLib\SkinEdit.cpp" />
     <ClCompile Include="SkinLib\SkinManager.cpp" />
+    <ClCompile Include="socket.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
@@ -219,13 +223,16 @@
     <ClInclude Include="ImageEx.h" />
     <ClInclude Include="LogIn_dlg.h" />
     <ClInclude Include="MainDlg.h" />
+    <ClInclude Include="message.h" />
     <ClInclude Include="Path.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="SkinLib\SkinButton.h" />
     <ClInclude Include="SkinLib\SkinEdit.h" />
     <ClInclude Include="SkinLib\SkinManager.h" />
+    <ClInclude Include="socket.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="XmlDocument.h" />
+    <ClInclude Include="SendRequestTread.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="good_job_client.rc" />
