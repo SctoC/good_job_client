@@ -66,7 +66,7 @@
     <ClCompile Include="socket.cpp">
       <Filter>Treads</Filter>
     </ClCompile>
-    <ClCompile Include="model.cpp">
+    <ClCompile Include="ApplicationModel.cpp">
       <Filter>model</Filter>
     </ClCompile>
     <ClCompile Include="MainDlg.CPP">
@@ -116,7 +116,7 @@
     <ClInclude Include="message.h">
       <Filter>message</Filter>
     </ClInclude>
-    <ClInclude Include="model.h">
+    <ClInclude Include="ApplicationModel.h">
       <Filter>model</Filter>
     </ClInclude>
     <ClInclude Include="MainDlg.h">

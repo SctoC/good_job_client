@@ -39,7 +39,7 @@
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v142</PlatformToolset>
-    <CharacterSet>Unicode</CharacterSet>
+    <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
@@ -203,7 +203,7 @@
     <ClCompile Include="ImageEx.cpp" />
     <ClCompile Include="LogIn_dlg.cpp" />
     <ClCompile Include="MainDlg.CPP" />
-    <ClCompile Include="model.cpp" />
+    <ClCompile Include="ApplicationModel.cpp" />
     <ClCompile Include="Path.cpp" />
     <ClCompile Include="SendRequestTread.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
@@ -228,7 +228,7 @@
     <ClInclude Include="LogIn_dlg.h" />
     <ClInclude Include="MainDlg.h" />
     <ClInclude Include="message.h" />
-    <ClInclude Include="model.h" />
+    <ClInclude Include="ApplicationModel.h" />
     <ClInclude Include="Path.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="SkinLib\SkinButton.h" />

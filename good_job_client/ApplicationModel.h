@@ -5,8 +5,7 @@
 class ApplicationModel
 {
 private:
-	ApplicationModel(){
-		sendRequestThread.set_socket(&socket);
+	ApplicationModel():sendRequestThread(&socket){
 	}
 public:
 	ApplicationModel(const ApplicationModel& ) = delete;
@@ -45,8 +44,8 @@ public:
 		int result = WideCharToMultiByte(CP_UTF8, 0, wbuf, -1, utf8Str, bufferSize, nullptr, nullptr);
 		return utf8Str;
 	}
-
-	SendRequestTread sendRequestThread;
 	Socket           socket;
+	SendRequestTread sendRequestThread;
+
 };
 
