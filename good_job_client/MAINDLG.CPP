@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "MainDlg.h"
-
+#include "ApplicationModel.h"
 BOOL CMainDlg::PreTranslateMessage(MSG* pMsg)
 {
 	return CWindow::IsDialogMessage(pMsg);
@@ -35,7 +35,7 @@ LRESULT CMainDlg::OnInitDialog(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam
 	LogIn_Dialog dlg(account, pwd);
 	if (dlg.DoModal() == IDOK)
 	{
-      
+	   AppModel->sendLoninRequest(account,pwd);
 	}
 	else
 	{
