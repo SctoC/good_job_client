@@ -3,6 +3,8 @@
 
 SendRequestTread::SendRequestTread(Socket* _sendSocket):_stop(false),sendSocket(_sendSocket)
 {
+
+	start();
 }
 SendRequestTread::~SendRequestTread()
 {
@@ -32,25 +34,28 @@ void SendRequestTread::AddRequest(Request* req)
 }
 void SendRequestTread::send_threadfuntion()
 {
+	OutputDebugString(L"Thread function started.\n");
 	//存在死锁问题
 	while (!_stop)
 	{
 		Request* temp = nullptr;
+		bool is_unlock;
 		mtx.lock();
+		is_unlock = true;
 		//此处可以优化为条件变量
-		while (SendQue.empty()) {
+	    if(!SendQue.empty())
+		{
+			temp = SendQue.front();
+			SendQue.pop();
 			mtx.unlock();
-			if (_stop)
-				return;
+			is_unlock = false;
+			HandleRequest(temp);
+			delete temp;
+		}
+		if (is_unlock)
+		{
 			mtx.unlock();
 		}
-		mtx.lock();
-		temp = SendQue.front();
-		SendQue.pop();
-		mtx.unlock();
-
-		HandleRequest(temp);
-		delete temp;
 	}
 }
 void SendRequestTread::HandleRequest(Request* Req)
