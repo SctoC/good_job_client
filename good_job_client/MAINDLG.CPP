@@ -35,8 +35,7 @@ LRESULT CMainDlg::OnInitDialog(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam
 	LogIn_Dialog dlg(account, pwd);
 	if (dlg.DoModal() == IDOK)
 	{
-		//∑¢ÀÕ«Î«Û°£
-		int a = 1;
+      
 	}
 	else
 	{
