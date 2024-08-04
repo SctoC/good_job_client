@@ -1,5 +1,6 @@
-#include "SendRequestTread.h"
 
+#include "SendRequestTread.h"
+#include "json.h" // 包含 JsonCpp 库的头文件
 
 SendRequestTread::SendRequestTread(Socket* _sendSocket):_stop(false),sendSocket(_sendSocket)
 {
@@ -72,13 +73,24 @@ void SendRequestTread::HandleRequest(Request* Req)
 }
 void SendRequestTread::HandleLogInRequest(LogIn_Request* Req)
 {
-	unsigned int size = Req->account.size() + Req->pwd.size();
+	//构建json对象
+	Json::Value root;
+	root["type"] = LogInQuest;
+	root["account"] = Req->account;
+	root["password"] = Req->pwd;
+
+	// 将 JSON 对象序列化为字符串
+	Json::StreamWriterBuilder writer;
+	std::string sendbuf1 = Json::writeString(writer, root);
+
+    //加入信息头长度
+	unsigned int size = sendbuf1.size();
 	//const char* message_len = (const char*)&size;
 	const char* message_len = reinterpret_cast<const char*>(&size);
 
 	std::string sendbuf(message_len, sizeof(size));
-	sendbuf += Req->account;
-	sendbuf += Req->pwd;
+	sendbuf += sendbuf1;
+
 
 	sendSocket->add_sendbuf(sendbuf);
 }

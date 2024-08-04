@@ -67,7 +67,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>C:\Users\Hanxiangqian\Desktop\qiuzhao\xiangmu\就靠你了\good_job_client\good_job_client\SkinLib;C:\Users\Hanxiangqian\Desktop\qiuzhao\xiangmu\就靠你了\good_job_client\WTL10_10320_Release\Include;$(IncludePath)</IncludePath>
+    <IncludePath>C:\Users\Hanxiangqian\Desktop\qiuzhao\xiangmu\就靠你了\good_job_client\good_job_client\jsoncpp;C:\Users\Hanxiangqian\Desktop\qiuzhao\xiangmu\就靠你了\good_job_client\good_job_client\SkinLib;C:\Users\Hanxiangqian\Desktop\qiuzhao\xiangmu\就靠你了\good_job_client\WTL10_10320_Release\Include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
@@ -201,6 +201,15 @@
   <ItemGroup>
     <ClCompile Include="good_job_client.cpp" />
     <ClCompile Include="ImageEx.cpp" />
+    <ClCompile Include="jsoncpp\json_reader.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="jsoncpp\json_value.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="jsoncpp\json_writer.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="LogIn_dlg.cpp" />
     <ClCompile Include="MainDlg.CPP" />
     <ClCompile Include="ApplicationModel.cpp" />
@@ -225,6 +234,17 @@
     <ClInclude Include="..\WTL10_10320_Release\Include\atlres.h" />
     <ClInclude Include="AboutDlg.h" />
     <ClInclude Include="ImageEx.h" />
+    <ClInclude Include="jsoncpp\allocator.h" />
+    <ClInclude Include="jsoncpp\assertions.h" />
+    <ClInclude Include="jsoncpp\config.h" />
+    <ClInclude Include="jsoncpp\forwards.h" />
+    <ClInclude Include="jsoncpp\json.h" />
+    <ClInclude Include="jsoncpp\json_features.h" />
+    <ClInclude Include="jsoncpp\json_tool.h" />
+    <ClInclude Include="jsoncpp\reader.h" />
+    <ClInclude Include="jsoncpp\value.h" />
+    <ClInclude Include="jsoncpp\version.h" />
+    <ClInclude Include="jsoncpp\writer.h" />
     <ClInclude Include="LogIn_dlg.h" />
     <ClInclude Include="MainDlg.h" />
     <ClInclude Include="message.h" />
@@ -244,6 +264,9 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\good_job_client.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="jsoncpp\json_valueiterator.inl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
