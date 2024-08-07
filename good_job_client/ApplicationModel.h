@@ -17,6 +17,10 @@ public:
 		static ApplicationModel m;
 		return &m;
 	}
+	bool init(std::string& ipAddress, int& port)
+	{
+		return socket.init(ipAddress, port);
+	}
 	void sendLoninRequest(CString& account, CString& pwd)
 	{
 		const wchar_t* account_wbuf = static_cast<const wchar_t*>(account);
