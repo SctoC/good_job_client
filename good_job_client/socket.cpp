@@ -14,6 +14,7 @@ bool Socket::init(std::string& ipAddress, int& port)
 	creat();
 	setServerIp(ipAddress, port);
 	connect();
+	start();
 	return true;
 }
 bool Socket::WinSock_init()
@@ -83,16 +84,16 @@ void Socket::send_threadfuntion()
 	while (!_stop)
 	{
 		send_mtx.lock();
-		while (m_strSendBuf.empty()) {
-			if (_stop)
-				return;
+		if(m_strSendBuf.empty()) {
 		}
-		int result = send(socketfd, m_strSendBuf.c_str(), static_cast<int>(m_strSendBuf.size()), 0);
-		//发送错误处理，待加
-		// 
-		//清除缓冲区。
-		if (result > 0)
-			m_strSendBuf = m_strSendBuf.substr(result);
+		else
+		{
+			int result = send(socketfd, m_strSendBuf.c_str(), static_cast<int>(m_strSendBuf.size()), 0);
+			//发送错误处理，待加
+			//清除缓冲区。
+			if (result > 0)
+				m_strSendBuf = m_strSendBuf.substr(result);
+		}
 		send_mtx.unlock();
 	}
 }
