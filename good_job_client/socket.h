@@ -15,7 +15,8 @@ public:
 	Socket();
 	~Socket();
 	//socket的固定操作：初始化库、创建socket、设置服务器地址、开始连接、关闭连接、清理库
-	bool init();
+	bool init(std::string& ipAddress, int& port);
+	bool WinSock_init();
 	bool creat();
 	bool setServerIp(std::string ipAddress, int port);
 	bool connect();

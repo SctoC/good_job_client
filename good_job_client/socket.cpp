@@ -8,7 +8,15 @@ Socket::~Socket() {
 	close();
 	WSACleanup();
 }
-bool Socket::init()
+bool Socket::init(std::string& ipAddress, int& port)
+{
+	WinSock_init();
+	creat();
+	setServerIp(ipAddress, port);
+	connect();
+	return true;
+}
+bool Socket::WinSock_init()
 {
 	WSADATA wsaData;
 	int result = WSAStartup(MAKEWORD(2, 2), &wsaData);
