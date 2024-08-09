@@ -214,6 +214,9 @@
     <ClCompile Include="MainDlg.CPP" />
     <ClCompile Include="ApplicationModel.cpp" />
     <ClCompile Include="Path.cpp" />
+    <ClCompile Include="ReceiveAckThread.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="SendRequestTread.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
@@ -221,7 +224,9 @@
     <ClCompile Include="SkinLib\SkinButton.cpp" />
     <ClCompile Include="SkinLib\SkinEdit.cpp" />
     <ClCompile Include="SkinLib\SkinManager.cpp" />
-    <ClCompile Include="socket.cpp" />
+    <ClCompile Include="socket.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
@@ -250,6 +255,7 @@
     <ClInclude Include="message.h" />
     <ClInclude Include="ApplicationModel.h" />
     <ClInclude Include="Path.h" />
+    <ClInclude Include="ReceiveAckThread.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="SkinLib\SkinButton.h" />
     <ClInclude Include="SkinLib\SkinEdit.h" />

@@ -1,4 +1,4 @@
-
+#pragma once
 #include "SendRequestTread.h"
 #include "json.h" // 包含 JsonCpp 库的头文件
 

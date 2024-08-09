@@ -1,6 +1,7 @@
+#pragma once
 #include "stdafx.h"
 #include "socket.h"
-
+#include "json.h" // 包含 JsonCpp 库的头文件
 Socket::Socket() :socketfd(INVALID_SOCKET), _stop(false) {}
 Socket::~Socket() {
 	stop();
@@ -73,12 +74,59 @@ void Socket::close()
 void Socket::start()
 {
 	send_thread = std::thread(&Socket::send_threadfuntion, this);
+	receive_thread = std::thread(&Socket::receive_funtion, this);
 }
 void Socket::stop()
 {
 	_stop = true;
 }
+void Socket::receive_funtion()
+{
+	char buffer[BUFFER_SIZE];//接收缓冲区
+	int bytes_received;//接收到的字节数
+	int toBeByteNum = 4;//待接收字节数
+	bool toBeIsDataLen = true;//待接收的是数据长度，还是数据
+	while (!_stop)
+	{
+		bytes_received = recv(socketfd, buffer, sizeof(buffer) - 1, 0);
+		if (bytes_received < 0) {
+			std::cerr << "Recv failed\n";
+			break;
+		}
+		else if (bytes_received == 0) {
+			std::cout << "Connection closed by peer\n";
+			break;
+		}
+		else {
+			//将本次接收的数据加入到接收队列
+			std::string temp(buffer, bytes_received);
+			m_strReceiveBuf += temp;
 
+			while (m_strReceiveBuf.size() >= toBeByteNum)//当接收队列的字节数大于等于待接收的字节数，处理数据
+			{
+				if (toBeIsDataLen)//此时接收的是数据长度
+				{
+					std::memcpy(&toBeByteNum, m_strReceiveBuf.c_str(), 4);//提取数据长度
+					m_strReceiveBuf.erase(0, 4); // 从位置 0 开始删除 n 个字符
+					toBeIsDataLen = false;//接下来接收数据
+				}
+				else//此时接收的是数据
+				{
+					std::string jsonData = m_strReceiveBuf.substr(0, toBeByteNum);
+					m_strReceiveBuf.erase(0, toBeByteNum);
+					//接下来接收数据长度
+					toBeIsDataLen = true;
+					toBeIsDataLen = 4;
+					//将数据发送给接收应答消息线程处理
+					revAckThread.AddAck(jsonData);
+				}
+
+			}
+
+		}
+
+	}
+}
 void Socket::send_threadfuntion()
 {
 	while (!_stop)
@@ -98,9 +146,11 @@ void Socket::send_threadfuntion()
 	}
 }
 
+
 void Socket::add_sendbuf(std::string& sendbuf)
 {
 	send_mtx.lock();
 	m_strSendBuf += sendbuf;
 	send_mtx.unlock();
 }
+

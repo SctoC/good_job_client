@@ -84,6 +84,9 @@
     <ClCompile Include="jsoncpp\json_writer.cpp">
       <Filter>jsoncpp</Filter>
     </ClCompile>
+    <ClCompile Include="ReceiveAckThread.cpp">
+      <Filter>Treads</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -166,6 +169,9 @@
     </ClInclude>
     <ClInclude Include="jsoncpp\writer.h">
       <Filter>jsoncpp</Filter>
+    </ClInclude>
+    <ClInclude Include="ReceiveAckThread.h">
+      <Filter>Treads</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

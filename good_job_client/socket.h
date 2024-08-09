@@ -3,12 +3,16 @@
 #include <ws2tcpip.h>   // 提供 IP 地址相关的函数
 #pragma comment(lib, "ws2_32.lib")
 
+#include "ReceiveAckThread.h"
 #include<iostream>
 #include <string>
 #include <mutex>
 #include <thread>
 #include <atomic>
+
 //可以优化成单例模式
+
+#define BUFFER_SIZE 1024
 class Socket
 {
 public:
@@ -26,19 +30,19 @@ public:
 	void start();
 	void stop();
 
-
+	void receive_funtion();
 	void send_threadfuntion();
 	void add_sendbuf(std::string& sendbuf);
 
-
-	void rece_funtion();
-
-
+	ReceiveAckThread revAckThread;
 	SOCKET socketfd;
 	struct sockaddr_in serverAddr;
 	std::string m_strSendBuf;
+	std::string m_strReceiveBuf;
 	std::thread send_thread;
+	std::thread receive_thread;
 	std::mutex send_mtx;
 	std::atomic<bool> _stop;
+	
 };
 
