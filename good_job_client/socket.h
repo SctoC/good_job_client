@@ -34,6 +34,10 @@ public:
 	void send_threadfuntion();
 	void add_sendbuf(std::string& sendbuf);
 
+	void setMaindlgHwnd(HWND mainDlgHwnd)
+	{
+		revAckThread.setMaindlgHwnd(mainDlgHwnd);
+	}
 	ReceiveAckThread revAckThread;
 	SOCKET socketfd;
 	struct sockaddr_in serverAddr;

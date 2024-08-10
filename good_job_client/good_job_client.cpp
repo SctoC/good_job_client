@@ -50,7 +50,7 @@ int WINAPI _tWinMain(HINSTANCE hInstance, HINSTANCE /*hPrevInstance*/, LPTSTR lp
 	CSkinManager::Init();	// 初始化皮肤管理器
 	std::string ip = "192.168.181.129";
 	int port = 9527;
-	while(!AppModel->init(ip, port))
+	while(!AppModel->initSocket(ip, port))
 	{
 	}
 	tstring strSkinPath = Edoyun::CPath::GetAppPath() + _T("Skins\\");	// 设置皮肤文件夹路径

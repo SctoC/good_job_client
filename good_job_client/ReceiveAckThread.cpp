@@ -75,13 +75,7 @@ void ReceiveAckThread::HandleAck(std::string& jsonData )
 }
 void ReceiveAckThread::HandleLogInAck(Json::Value& root)
 {
-	bool isSuccess = root["isSuccess"].asBool();
-	if (isSuccess)
-	{
-
-	}
-	else
-	{
-
-	}
+	bool* isSuccess = new bool(root["isSuccess"].asBool());
+	Sleep(2000);
+   PostMessage(_mainDlgHwnd, WM_USER_LOGIN_ACK, 0, reinterpret_cast<LPARAM>(isSuccess));
 }
