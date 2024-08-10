@@ -4,7 +4,8 @@
 
 #pragma once
 #include "LogIn_dlg.h"
-
+#include "SkinTabCtrl.h"
+#include "userMessage.h"
 class CMainDlg : public CDialogImpl<CMainDlg>, public CUpdateUI<CMainDlg>,
 		public CMessageFilter, public CIdleHandler
 {
@@ -23,9 +24,7 @@ public:
 	BEGIN_MSG_MAP(CMainDlg)
 		MESSAGE_HANDLER(WM_INITDIALOG, OnInitDialog)
 		MESSAGE_HANDLER(WM_DESTROY, OnDestroy)
-		COMMAND_ID_HANDLER(ID_APP_ABOUT, OnAppAbout)
-		COMMAND_ID_HANDLER(IDOK, OnOK)
-		COMMAND_ID_HANDLER(IDCANCEL, OnCancel)
+		MESSAGE_HANDLER(WM_USER_LOGIN_ACK, OnLoginResult)
 	END_MSG_MAP()
 
 // Handler prototypes (uncomment arguments if needed):
@@ -34,20 +33,25 @@ public:
 //	LRESULT NotifyHandler(int /*idCtrl*/, LPNMHDR /*pnmh*/, BOOL& /*bHandled*/)
 
 	LRESULT OnInitDialog(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, BOOL& /*bHandled*/);
-
-
 	LRESULT OnDestroy(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, BOOL& /*bHandled*/);
 
-	
-	LRESULT OnAppAbout(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/);
+	LRESULT OnLoginResult(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM lParam, BOOL& /*bHandled*/)
+	{
+		bool* success = reinterpret_cast<bool*>(lParam);
+		if(*success)
+			show_tab(true);
+		delete success;
+		return 0;
+	}
 
+	void Init();
+	void tab_Init();
 
-	LRESULT OnOK(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOOL& /*bHandled*/);
-
-
-	LRESULT OnCancel(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOOL& /*bHandled*/);
-
+	void show_tab(bool isMain);
 
 	void CloseDialog(int nVal);
+
+
+	 CSkinTabCtrl		m_TabCtrl;
 
 };

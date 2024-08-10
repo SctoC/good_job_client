@@ -126,14 +126,12 @@ BEGIN
     GROUPBOX        "",IDC_STATIC,7,7,115,88
 END
 
-IDD_MAINDLG DIALOG 0, 0, 187, 98
+IDD_MAINDLG DIALOGEX 0, 0, 191, 329
 STYLE DS_SETFONT | WS_MINIMIZEBOX | WS_CAPTION | WS_SYSMENU
 CAPTION "good_job_client"
-FONT 9, "Segoe UI"
+FONT 9, "Segoe UI", 0, 0, 0x0
 BEGIN
-    DEFPUSHBUTTON   "OK",IDOK,130,7,50,14
-    PUSHBUTTON      "Cancel",IDCANCEL,130,24,50,14
-    PUSHBUTTON      "&About",ID_APP_ABOUT,130,77,50,14
+    LTEXT           "?????......",IDC_STATIC,70,157,49,20
 END
 
 
@@ -156,9 +154,9 @@ BEGIN
     IDD_MAINDLG, DIALOG
     BEGIN
         LEFTMARGIN, 7
-        RIGHTMARGIN, 180
+        RIGHTMARGIN, 184
         TOPMARGIN, 7
-        BOTTOMMARGIN, 91
+        BOTTOMMARGIN, 322
     END
 END
 #endif    // APSTUDIO_INVOKED
@@ -223,6 +221,17 @@ BEGIN
     BEGIN
         VALUE "Translation", 0x409, 1200
     END
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// AFX_DIALOG_LAYOUT
+//
+
+IDD_MAINDLG AFX_DIALOG_LAYOUT
+BEGIN
+    0
 END
 
 

@@ -2,7 +2,6 @@
 
 #include "SkinManager.h"
 
-
 enum SKIN_BUTTON_TYPE
 {
 	SKIN_PUSH_BUTTON,

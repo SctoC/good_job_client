@@ -87,6 +87,9 @@
     <ClCompile Include="ReceiveAckThread.cpp">
       <Filter>Treads</Filter>
     </ClCompile>
+    <ClCompile Include="SkinLib\SkinTabCtrl.cpp">
+      <Filter>SkinLib</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -172,6 +175,12 @@
     </ClInclude>
     <ClInclude Include="ReceiveAckThread.h">
       <Filter>Treads</Filter>
+    </ClInclude>
+    <ClInclude Include="SkinLib\SkinTabCtrl.h">
+      <Filter>SkinLib</Filter>
+    </ClInclude>
+    <ClInclude Include="userMessage.h">
+      <Filter>message</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

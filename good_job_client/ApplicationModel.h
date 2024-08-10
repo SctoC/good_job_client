@@ -17,7 +17,7 @@ public:
 		static ApplicationModel m;
 		return &m;
 	}
-	bool init(std::string& ipAddress, int& port)
+	bool initSocket(std::string& ipAddress, int& port)
 	{
 		return socket.init(ipAddress, port);
 	}
@@ -30,6 +30,10 @@ public:
 
 		LogIn_Request* t = new LogIn_Request(LogInQuest,account_ubuf, pwd_ubuf);//发送线程处理完后，会释放资源，但是改成智能指针更好。
 		sendRequestThread.AddRequest(static_cast<Request*>(t));
+	}
+	void setMaindlgHwnd(HWND mainDlgHwnd)
+	{
+		socket.setMaindlgHwnd(mainDlgHwnd);
 	}
 
 	const char* unicodeToUtf_8(const wchar_t* wbuf)
