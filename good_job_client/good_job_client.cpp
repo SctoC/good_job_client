@@ -14,6 +14,7 @@
 
 #include "SkinManager.h"
 #include "ApplicationModel.h"
+
 CAppModule _Module;
 
 int Run(LPTSTR /*lpstrCmdLine*/ = NULL, int nCmdShow = SW_SHOWDEFAULT)
@@ -47,6 +48,8 @@ int WINAPI _tWinMain(HINSTANCE hInstance, HINSTANCE /*hPrevInstance*/, LPTSTR lp
 	hRes = _Module.Init(NULL, hInstance);
 	ATLASSERT(SUCCEEDED(hRes));
 
+	HINSTANCE hInstRichEdit = LoadLibrary(TEXT("Riched20.dll")); // 或 "Riched20.dll"
+
 	CSkinManager::Init();	// 初始化皮肤管理器
 	std::string ip = "192.168.181.129";
 	int port = 9527;
@@ -60,6 +63,7 @@ int WINAPI _tWinMain(HINSTANCE hInstance, HINSTANCE /*hPrevInstance*/, LPTSTR lp
 
 	int nRet = Run(lpstrCmdLine, nCmdShow);
 
+	FreeLibrary(hInstRichEdit);
 	_Module.Term();
 	::CoUninitialize();
 
