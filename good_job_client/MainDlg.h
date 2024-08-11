@@ -5,7 +5,9 @@
 #pragma once
 #include "LogIn_dlg.h"
 #include "SkinTabCtrl.h"
+#include "BuddyListCtrl.h"
 #include "userMessage.h"
+#include "budyChatDlg.h"
 class CMainDlg : public CDialogImpl<CMainDlg>, public CUpdateUI<CMainDlg>,
 		public CMessageFilter, public CIdleHandler
 {
@@ -46,6 +48,7 @@ public:
 
 	void Init();
 	void tab_Init();
+	void buddyList_Init();
 
 	void show_tab(bool isMain);
 
@@ -53,5 +56,5 @@ public:
 
 
 	 CSkinTabCtrl		m_TabCtrl;
-
+	 CBuddyListCtrl		m_BuddyListCtrl;
 };
