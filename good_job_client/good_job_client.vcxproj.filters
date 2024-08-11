@@ -90,6 +90,18 @@
     <ClCompile Include="SkinLib\SkinTabCtrl.cpp">
       <Filter>SkinLib</Filter>
     </ClCompile>
+    <ClCompile Include="GifImage.cpp">
+      <Filter>Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="BuddyListCtrl.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="SkinLib\SkinScrollBar.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="GDIFactory.cpp">
+      <Filter>Utils</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -181,6 +193,21 @@
     </ClInclude>
     <ClInclude Include="userMessage.h">
       <Filter>message</Filter>
+    </ClInclude>
+    <ClInclude Include="GifImage.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="BuddyListCtrl.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="SkinLib\SkinScrollBar.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="GDIFactory.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="budyChatDlg.h">
+      <Filter>UI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

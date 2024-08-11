@@ -1,6 +1,5 @@
 #include "stdafx.h"
 #include "LogIn_dlg.h"
-#include "stdafx.h"
 #include "resource.h"
 LRESULT LogIn_Dialog ::OnInitDialog(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled)
 {

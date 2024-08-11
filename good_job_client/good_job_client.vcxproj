@@ -93,6 +93,7 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <ResourceCompile>
       <Culture>0x0409</Culture>
@@ -199,6 +200,9 @@
     </Midl>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="BuddyListCtrl.cpp" />
+    <ClCompile Include="GDIFactory.cpp" />
+    <ClCompile Include="GifImage.cpp" />
     <ClCompile Include="good_job_client.cpp" />
     <ClCompile Include="ImageEx.cpp" />
     <ClCompile Include="jsoncpp\json_reader.cpp">
@@ -224,6 +228,7 @@
     <ClCompile Include="SkinLib\SkinButton.cpp" />
     <ClCompile Include="SkinLib\SkinEdit.cpp" />
     <ClCompile Include="SkinLib\SkinManager.cpp" />
+    <ClCompile Include="SkinLib\SkinScrollBar.cpp" />
     <ClCompile Include="SkinLib\SkinTabCtrl.cpp" />
     <ClCompile Include="socket.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
@@ -239,6 +244,10 @@
   <ItemGroup>
     <ClInclude Include="..\WTL10_10320_Release\Include\atlres.h" />
     <ClInclude Include="AboutDlg.h" />
+    <ClInclude Include="BuddyListCtrl.h" />
+    <ClInclude Include="budyChatDlg.h" />
+    <ClInclude Include="GDIFactory.h" />
+    <ClInclude Include="GifImage.h" />
     <ClInclude Include="ImageEx.h" />
     <ClInclude Include="jsoncpp\allocator.h" />
     <ClInclude Include="jsoncpp\assertions.h" />
@@ -261,6 +270,7 @@
     <ClInclude Include="SkinLib\SkinButton.h" />
     <ClInclude Include="SkinLib\SkinEdit.h" />
     <ClInclude Include="SkinLib\SkinManager.h" />
+    <ClInclude Include="SkinLib\SkinScrollBar.h" />
     <ClInclude Include="SkinLib\SkinTabCtrl.h" />
     <ClInclude Include="socket.h" />
     <ClInclude Include="stdafx.h" />

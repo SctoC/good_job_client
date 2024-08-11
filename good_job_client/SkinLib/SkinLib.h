@@ -8,7 +8,6 @@
 #include "SkinButton.h"
 #include "SkinHyperLink.h"
 #include "SkinComboBox.h"
-#include "SkinPictureBox.h"
 #include "SkinScrollBar.h"
 #include "SkinToolBar.h"
 #include "SkinTabCtrl.h"

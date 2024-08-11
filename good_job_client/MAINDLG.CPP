@@ -35,6 +35,10 @@ LRESULT CMainDlg::OnInitDialog(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam
 
 	CString account;
 	CString pwd;
+
+	//CMyDialog_test dlg_test;
+	//dlg_test.DoModal();
+
 	LogIn_Dialog dlg(account, pwd);
 	if (dlg.DoModal() == IDOK)
 	{
@@ -66,7 +70,7 @@ LRESULT CMainDlg::OnDestroy(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/,
 void CMainDlg::Init()
 {
 	tab_Init();
-	
+	buddyList_Init();
 }
 
 void CMainDlg::tab_Init()
@@ -104,10 +108,59 @@ void CMainDlg::tab_Init()
 	m_TabCtrl.SetCurSel(1);
 }
 
+void CMainDlg::buddyList_Init()
+{
+		m_BuddyListCtrl.SetMargin(CRect(2, 0, 2, 0));
+		m_BuddyListCtrl.SetBgPic(_T("BuddyList\\Bg.png"));
+		m_BuddyListCtrl.SetBuddyTeamHotBgPic(_T("BuddyList\\BuddyTeamHotBg.png"));
+		m_BuddyListCtrl.SetBuddyItemHotBgPic(_T("BuddyList\\BuddyItemHotBg.png"), CRect(1, 1, 1, 1));
+		m_BuddyListCtrl.SetBuddyItemSelBgPic(_T("BuddyList\\BuddyItemSelBg.png"), CRect(1, 1, 1, 1));
+		m_BuddyListCtrl.SetHeadFramePic(_T("BuddyList\\Padding4Select.png"), CRect(6, 6, 6, 6));
+		m_BuddyListCtrl.SetNormalArrowPic(_T("BuddyList\\MainPanel_FolderNode_collapseTexture.png"));
+		m_BuddyListCtrl.SetHotArrowPic(_T("BuddyList\\MainPanel_FolderNode_collapseTextureHighlight.png"));
+		m_BuddyListCtrl.SetSelArrowPic(_T("BuddyList\\MainPanel_FolderNode_collapseTextureHighlight.png"));
+		m_BuddyListCtrl.SetNormalExpArrowPic(_T("BuddyList\\MainPanel_FolderNode_expandTexture.png"));
+		m_BuddyListCtrl.SetHotExpArrowPic(_T("BuddyList\\MainPanel_FolderNode_expandTextureHighlight.png"));
+		m_BuddyListCtrl.SetSelExpArrowPic(_T("BuddyList\\MainPanel_FolderNode_expandTextureHighlight.png"));
+		m_BuddyListCtrl.SetStdGGHeadPic(_T("BuddyList\\trad_boy.png"));
+		m_BuddyListCtrl.SetStdMMHeadPic(_T("BuddyList\\trad_girl.png"));
+		m_BuddyListCtrl.SetStyle(BLC_STANDARD_ICON_STYLE);
+		m_BuddyListCtrl.SetShowBigIconInSel(TRUE);
+		m_BuddyListCtrl.SetBuddyTeamHeight(24);
+		m_BuddyListCtrl.SetBuddyItemHeightInBigIcon(54);
+		m_BuddyListCtrl.SetBuddyItemHeightInSmallIcon(28);
+		m_BuddyListCtrl.SetBuddyItemHeightInStandardIcon(26);
+		m_BuddyListCtrl.SetBuddyItemPadding(1);
+
+		CRect rcClient;
+		GetClientRect(&rcClient);
+
+		CRect rcListCtrl(0, 200, rcClient.Width(), 200 + rcClient.Height() - 236);
+		m_BuddyListCtrl.Create(m_hWnd, rcListCtrl, NULL, WS_CHILD | WS_VISIBLE, NULL, ID_LISTCTRL_BUDDY);
+
+
+		int nTeamIndex = m_BuddyListCtrl.AddBuddyTeam(0);
+		m_BuddyListCtrl.SetBuddyTeamName(nTeamIndex, _T("Team Alpha"));
+	/*	m_BuddyListCtrl.SetBuddyTeamCurCnt(nTeamIndex, nOnlineBuddyCount);
+		m_BuddyListCtrl.SetBuddyTeamExpand(nTeamIndex, aryTeamExpandStatus[i]);*/
+
+
+		int nIndex = m_BuddyListCtrl.AddBuddyItem(nTeamIndex, 54930);
+		m_BuddyListCtrl.SetBuddyItemUTalkNum(nTeamIndex, nIndex, _T("UTalkNum"));
+		m_BuddyListCtrl.SetBuddyItemNickName(nTeamIndex, nIndex, _T("NickName"));
+		m_BuddyListCtrl.SetBuddyItemMarkName(nTeamIndex, nIndex, _T("MarkName"));
+
+		nIndex = m_BuddyListCtrl.AddBuddyItem(nTeamIndex, 54935);
+		m_BuddyListCtrl.SetBuddyItemUTalkNum(nTeamIndex, nIndex, _T("UTalkNum1"));
+		m_BuddyListCtrl.SetBuddyItemNickName(nTeamIndex, nIndex, _T("NickName1"));
+		m_BuddyListCtrl.SetBuddyItemMarkName(nTeamIndex, nIndex, _T("MarkName1"));
+}
+
 void CMainDlg::show_tab(bool isMain)
 {   
 	int IsMain = isMain ? SW_SHOW : SW_HIDE;
 	m_TabCtrl.ShowWindow(IsMain);
+	m_BuddyListCtrl.ShowWindow(IsMain);
 
 	int IsLoging = isMain ? SW_HIDE:SW_SHOW;
 	
