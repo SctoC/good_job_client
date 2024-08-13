@@ -102,6 +102,9 @@
     <ClCompile Include="GDIFactory.cpp">
       <Filter>Utils</Filter>
     </ClCompile>
+    <ClCompile Include="budyChatDlg.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -208,6 +211,9 @@
     </ClInclude>
     <ClInclude Include="budyChatDlg.h">
       <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="buddyInfo.h">
+      <Filter>model</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

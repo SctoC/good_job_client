@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "MainDlg.h"
-#include "ApplicationModel.h"
+
 BOOL CMainDlg::PreTranslateMessage(MSG* pMsg)
 {
 	return CWindow::IsDialogMessage(pMsg);

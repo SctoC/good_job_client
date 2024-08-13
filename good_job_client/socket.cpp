@@ -2,19 +2,27 @@
 #include "stdafx.h"
 #include "socket.h"
 #include "json.h" // 包含 JsonCpp 库的头文件
-Socket::Socket() :socketfd(INVALID_SOCKET), _stop(false) {}
+#include <winsock2.h>   // 包含 Winsock API
+#include <ws2tcpip.h>   // 提供 IP 地址相关的函数
+#include "ApplicationModel.h" 
+
+Socket::Socket() :socketfd(nullptr), _stop(false){}
+
+
 Socket::~Socket() {
 	stop();
 	send_thread.join();
 	close();
 	WSACleanup();
+	if(!socketfd)
+	  delete socketfd;
 }
 bool Socket::init(std::string& ipAddress, int& port)
 {
 	WinSock_init();
 	creat();
-	setServerIp(ipAddress, port);
-	connect();
+	
+	connect(ipAddress, port);
 	start();
 	return true;
 }
@@ -31,9 +39,10 @@ bool Socket::WinSock_init()
 
 bool Socket::creat()
 {
-	if (socketfd == INVALID_SOCKET) {
-		socketfd = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
-		if (socketfd == INVALID_SOCKET) {
+	if (socketfd == nullptr) {
+		socketfd = new SOCKET();
+		(*socketfd) = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
+		if ((*socketfd) == INVALID_SOCKET) {
 			std::cerr << "创建套接字失败，错误代码: " << WSAGetLastError() << std::endl;
 			WSACleanup();
 			return false;
@@ -42,8 +51,10 @@ bool Socket::creat()
 	return true;
 }
 
-bool Socket::setServerIp(std::string ipAddress, int port)
-{
+
+
+bool Socket::connect(std::string& ipAddress, int& port) {
+	struct sockaddr_in serverAddr;
 	serverAddr.sin_family = AF_INET;
 	serverAddr.sin_port = htons(port); // 端口号
 	if (inet_pton(AF_INET, ipAddress.c_str(), &serverAddr.sin_addr) <= 0)
@@ -51,12 +62,8 @@ bool Socket::setServerIp(std::string ipAddress, int port)
 		std::cerr << "无效的地址或地址不支持" << std::endl;
 		return false;
 	}// IP 地址
-	return true;
-}
-
-bool Socket::connect() {
 	// 连接服务器
-	if (::connect(socketfd, reinterpret_cast<sockaddr*>(&serverAddr), sizeof(serverAddr)) == SOCKET_ERROR) {
+	if (::connect(*socketfd, reinterpret_cast<sockaddr*>(&serverAddr), sizeof(serverAddr)) == SOCKET_ERROR) {
 		std::cerr << "连接到服务器失败，错误代码: " << WSAGetLastError() << std::endl;
 		return false;
 	}
@@ -64,10 +71,10 @@ bool Socket::connect() {
 }
 void Socket::close()
 {
-	if (socketfd != INVALID_SOCKET)
+	if ((*socketfd) != INVALID_SOCKET)
 	{
-		closesocket(socketfd);
-		socketfd = INVALID_SOCKET;
+		closesocket(*socketfd);
+		
 	}
 }
 
@@ -88,7 +95,7 @@ void Socket::receive_funtion()
 	bool toBeIsDataLen = true;//待接收的是数据长度，还是数据
 	while (!_stop)
 	{
-		bytes_received = recv(socketfd, buffer, sizeof(buffer) - 1, 0);
+		bytes_received = recv(*socketfd, buffer, sizeof(buffer) - 1, 0);
 		if (bytes_received < 0) {
 			std::cerr << "Recv failed\n";
 			break;
@@ -136,7 +143,7 @@ void Socket::send_threadfuntion()
 		}
 		else
 		{
-			int result = send(socketfd, m_strSendBuf.c_str(), static_cast<int>(m_strSendBuf.size()), 0);
+			int result = send(*socketfd, m_strSendBuf.c_str(), static_cast<int>(m_strSendBuf.size()), 0);
 			//发送错误处理，待加
 			//清除缓冲区。
 			if (result > 0)

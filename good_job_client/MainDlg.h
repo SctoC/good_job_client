@@ -8,6 +8,7 @@
 #include "BuddyListCtrl.h"
 #include "userMessage.h"
 #include "budyChatDlg.h"
+#include "ApplicationModel.h"
 class CMainDlg : public CDialogImpl<CMainDlg>, public CUpdateUI<CMainDlg>,
 		public CMessageFilter, public CIdleHandler
 {
@@ -27,7 +28,8 @@ public:
 		MESSAGE_HANDLER(WM_INITDIALOG, OnInitDialog)
 		MESSAGE_HANDLER(WM_DESTROY, OnDestroy)
 		MESSAGE_HANDLER(WM_USER_LOGIN_ACK, OnLoginResult)
-	END_MSG_MAP()
+		NOTIFY_HANDLER_EX(ID_LISTCTRL_BUDDY, NM_DBLCLK, OnBuddyListDblClk)		 //双击好友列表中的好友
+	END_MSG_MAP() 
 
 // Handler prototypes (uncomment arguments if needed):
 //	LRESULT MessageHandler(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, BOOL& /*bHandled*/)
@@ -54,7 +56,22 @@ public:
 
 	void CloseDialog(int nVal);
 
+	LRESULT CMainDlg::OnBuddyListDblClk(LPNMHDR pnmh)
+	{
+		int nTeamIndex, nIndex;
+		m_BuddyListCtrl.GetCurSelIndex(nTeamIndex, nIndex);
 
+		if (nTeamIndex != -1 && nIndex != -1)
+		{
+			UINT account = m_BuddyListCtrl.GetBuddyItemID(nTeamIndex, nIndex);
+			if (!AppModel->getBuddyChatDialog(account))
+			{
+				BuddyChatDialog* temp = new BuddyChatDialog(account,AppModel->getBuddyNameByAccount(account));
+				AppModel->addBuddyChatDialog(account, temp);
+			}
+		}
+		return 0;
+	}
 	 CSkinTabCtrl		m_TabCtrl;
 	 CBuddyListCtrl		m_BuddyListCtrl;
 };

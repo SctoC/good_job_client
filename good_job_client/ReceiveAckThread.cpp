@@ -1,6 +1,8 @@
 #pragma once
 #include "ReceiveAckThread.h"
-
+#include "userMessage.h"
+#include "message.h"
+#include "ApplicationModel.h"
 
 ReceiveAckThread::ReceiveAckThread() :_stop(false)
 {
@@ -76,6 +78,10 @@ void ReceiveAckThread::HandleAck(std::string& jsonData )
 void ReceiveAckThread::HandleLogInAck(Json::Value& root)
 {
 	bool* isSuccess = new bool(root["isSuccess"].asBool());
+	if (*isSuccess)
+	{
+		AppModel->setBuddyIfo(root["buddys"]);
+	}
 	Sleep(2000);
-   PostMessage(_mainDlgHwnd, WM_USER_LOGIN_ACK, 0, reinterpret_cast<LPARAM>(isSuccess));
+    PostMessage(_mainDlgHwnd, WM_USER_LOGIN_ACK, 0, reinterpret_cast<LPARAM>(isSuccess));
 }

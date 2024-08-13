@@ -1,19 +1,18 @@
 #pragma once
-
 #include <windows.h>
 #include<queue>
 #include<atomic>
 #include<mutex>
 #include<thread>
 #include<string>
-#include "message.h"
 #include "json.h" // 包含 JsonCpp 库的头文件
-#include "userMessage.h"
+
 
 class ReceiveAckThread
 {
 
 public:
+	
 	ReceiveAckThread();
 	~ReceiveAckThread();
 
@@ -41,4 +40,5 @@ public:
 	std::atomic<bool> _stop;
 	std::mutex mtx;
 	HWND  _mainDlgHwnd;
+	
 };

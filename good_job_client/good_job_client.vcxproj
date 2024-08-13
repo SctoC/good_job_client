@@ -240,10 +240,12 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="XmlDocument.cpp" />
+    <ClCompile Include="budyChatDlg.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\WTL10_10320_Release\Include\atlres.h" />
     <ClInclude Include="AboutDlg.h" />
+    <ClInclude Include="buddyInfo.h" />
     <ClInclude Include="BuddyListCtrl.h" />
     <ClInclude Include="budyChatDlg.h" />
     <ClInclude Include="GDIFactory.h" />

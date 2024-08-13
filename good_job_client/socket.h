@@ -1,7 +1,4 @@
 #pragma once
-#include <winsock2.h>   // 包含 Winsock API
-#include <ws2tcpip.h>   // 提供 IP 地址相关的函数
-#pragma comment(lib, "ws2_32.lib")
 
 #include "ReceiveAckThread.h"
 #include<iostream>
@@ -10,6 +7,7 @@
 #include <thread>
 #include <atomic>
 
+#pragma comment(lib, "ws2_32.lib")
 //可以优化成单例模式
 
 #define BUFFER_SIZE 1024
@@ -22,8 +20,7 @@ public:
 	bool init(std::string& ipAddress, int& port);
 	bool WinSock_init();
 	bool creat();
-	bool setServerIp(std::string ipAddress, int port);
-	bool connect();
+	bool connect(std::string& ipAddress, int& port);
 	void close();
 
 	//开始线程发送和接收线程的运行
@@ -39,8 +36,7 @@ public:
 		revAckThread.setMaindlgHwnd(mainDlgHwnd);
 	}
 	ReceiveAckThread revAckThread;
-	SOCKET socketfd;
-	struct sockaddr_in serverAddr;
+	SOCKET* socketfd;
 	std::string m_strSendBuf;
 	std::string m_strReceiveBuf;
 	std::thread send_thread;
