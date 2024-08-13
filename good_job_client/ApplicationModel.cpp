@@ -24,6 +24,24 @@ ApplicationModel::ApplicationModel() :sendRequestThread(&socket) {}
 		LogIn_Request* t = new LogIn_Request(LogInQuest, account_ubuf, pwd_ubuf);//发送线程处理完后，会释放资源，但是改成智能指针更好。
 		sendRequestThread.AddRequest(static_cast<Request*>(t));
 	}
+	void ApplicationModel::sendBuddyMessageRequest(CString& buddyAccount, CString& content, CString& time)
+	{
+
+		const wchar_t* current_account_wbuf = static_cast<const wchar_t*>(current_account);
+		const char* current_account_ubuf = unicodeToUtf_8(current_account_wbuf);
+
+		const wchar_t* buddyAccount_wbuf = static_cast<const wchar_t*>(buddyAccount);
+		const char* buddyAccount_ubuf = unicodeToUtf_8(buddyAccount_wbuf);
+
+		const wchar_t* content_wbuf = static_cast<const wchar_t*>(content);
+		const char* content_ubuf = unicodeToUtf_8(content_wbuf);
+
+		const wchar_t* time_wbuf = static_cast<const wchar_t*>(time);
+		const char* time_ubuf = unicodeToUtf_8(time_wbuf);
+
+		sendMessage_Request* t = new sendMessage_Request(sendMessageQuest, current_account_ubuf, buddyAccount_ubuf, content_ubuf, time_ubuf);//发送线程处理完后，会释放资源，但是改成智能指针更好。
+		sendRequestThread.AddRequest(static_cast<Request*>(t));
+	}
 	void ApplicationModel::setMaindlgHwnd(HWND mainDlgHwnd)
 	{
 		socket.setMaindlgHwnd(mainDlgHwnd);
@@ -74,6 +92,15 @@ ApplicationModel::ApplicationModel() :sendRequestThread(&socket) {}
 			CString name(stringToWstring(buddy["name"].asString()).c_str());
 			map_account_buddy[account] = buddyInfo(name);
 		}
+	}
+
+	void ApplicationModel::setAccount(CString _account)
+	{
+		current_account = _account;
+	}
+	CString ApplicationModel::getAccount()
+	{
+		return current_account;
 	}
 
 	std::map<UINT, buddyInfo>* ApplicationModel::getBuddyIfo()

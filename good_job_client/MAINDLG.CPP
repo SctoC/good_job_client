@@ -44,6 +44,7 @@ LRESULT CMainDlg::OnInitDialog(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam
 	{
 		Init();
 		show_tab(false);
+		AppModel->setAccount(account);
 	   AppModel->sendLoninRequest(account,pwd);
 	}
 	else

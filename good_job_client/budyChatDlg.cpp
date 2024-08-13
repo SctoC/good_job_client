@@ -53,6 +53,13 @@
         m_editBox.SetWindowText(_T(""));
 
         AppendText(text);
+        
+
+        // Convert UINT to CString
+        CString account_s;
+        account_s.Format(_T("%u"), account);
+        AppModel->sendBuddyMessageRequest(account_s, text, GetCurrentTimeFormatted());
+
         // 处理按钮点击事件
         return 0;
     }

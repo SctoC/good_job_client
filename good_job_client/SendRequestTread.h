@@ -26,6 +26,7 @@ public:
 	void HandleRequest(Request* Req);
 
 	void HandleLogInRequest(LogIn_Request* Req);
+	void HandleSendMessageQuest(sendMessage_Request* Req);
 
 	std::thread SendRequestThread;
 
