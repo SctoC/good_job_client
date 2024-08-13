@@ -12,9 +12,10 @@ Socket::Socket() :socketfd(nullptr), _stop(false){}
 Socket::~Socket() {
 	stop();
 	send_thread.join();
+	receive_thread.join();
 	close();
 	WSACleanup();
-	if(!socketfd)
+	if(socketfd)
 	  delete socketfd;
 }
 bool Socket::init(std::string& ipAddress, int& port)
@@ -74,7 +75,6 @@ void Socket::close()
 	if ((*socketfd) != INVALID_SOCKET)
 	{
 		closesocket(*socketfd);
-		
 	}
 }
 
@@ -93,17 +93,31 @@ void Socket::receive_funtion()
 	int bytes_received;//接收到的字节数
 	int toBeByteNum = 4;//待接收字节数
 	bool toBeIsDataLen = true;//待接收的是数据长度，还是数据
+
+	u_long mode = 1; // 1 表示非阻塞模式
+	if (ioctlsocket(*socketfd, FIONBIO, &mode) != NO_ERROR) {
+		std::cerr << "Failed to set non-blocking mode\n";
+		return;
+	}
+
 	while (!_stop)
 	{
 		bytes_received = recv(*socketfd, buffer, sizeof(buffer) - 1, 0);
-		if (bytes_received < 0) {
-			std::cerr << "Recv failed\n";
-			break;
+		if (bytes_received == SOCKET_ERROR) {
+			if (WSAGetLastError() == WSAEWOULDBLOCK) {
+				// 没有数据可用，继续循环
+				continue;
+			}
+			else {
+				std::cerr << "Recv failed with error: " << WSAGetLastError() << "\n";
+				break;
+			}
 		}
 		else if (bytes_received == 0) {
 			std::cout << "Connection closed by peer\n";
 			break;
 		}
+
 		else {
 			//将本次接收的数据加入到接收队列
 			std::string temp(buffer, bytes_received);

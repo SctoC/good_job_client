@@ -64,7 +64,13 @@ LRESULT CMainDlg::OnDestroy(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/,
 	ATLASSERT(pLoop != NULL);
 	pLoop->RemoveMessageFilter(this);
 	pLoop->RemoveIdleHandler(this);
+	::PostQuitMessage(0);
+	return 0;
+}
 
+LRESULT CMainDlg::OnClose(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled)
+{
+	DestroyWindow();  // Ïú»Ù¶Ô»°¿ò
 	return 0;
 }
 
