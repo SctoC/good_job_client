@@ -11,6 +11,6 @@ public:
 	{
 		return name;
 	}
-
+private:
 	CString name;
 };

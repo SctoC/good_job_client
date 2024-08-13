@@ -39,14 +39,8 @@ public:
 	LRESULT OnInitDialog(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, BOOL& /*bHandled*/);
 	LRESULT OnDestroy(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, BOOL& /*bHandled*/);
 
-	LRESULT OnLoginResult(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM lParam, BOOL& /*bHandled*/)
-	{
-		bool* success = reinterpret_cast<bool*>(lParam);
-		if(*success)
-			show_tab(true);
-		delete success;
-		return 0;
-	}
+	LRESULT OnLoginResult(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM lParam, BOOL& /*bHandled*/);
+	
 
 	void Init();
 	void tab_Init();
@@ -56,22 +50,9 @@ public:
 
 	void CloseDialog(int nVal);
 
-	LRESULT CMainDlg::OnBuddyListDblClk(LPNMHDR pnmh)
-	{
-		int nTeamIndex, nIndex;
-		m_BuddyListCtrl.GetCurSelIndex(nTeamIndex, nIndex);
+	LRESULT OnBuddyListDblClk(LPNMHDR pnmh);
 
-		if (nTeamIndex != -1 && nIndex != -1)
-		{
-			UINT account = m_BuddyListCtrl.GetBuddyItemID(nTeamIndex, nIndex);
-			if (!AppModel->getBuddyChatDialog(account))
-			{
-				BuddyChatDialog* temp = new BuddyChatDialog(account,AppModel->getBuddyNameByAccount(account));
-				AppModel->addBuddyChatDialog(account, temp);
-			}
-		}
-		return 0;
-	}
+	void updataBuddyList();
 	 CSkinTabCtrl		m_TabCtrl;
 	 CBuddyListCtrl		m_BuddyListCtrl;
 };

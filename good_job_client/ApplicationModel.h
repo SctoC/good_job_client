@@ -24,10 +24,11 @@ public:
 	const char* unicodeToUtf_8(const wchar_t* wbuf);
 	CString getBuddyNameByAccount(UINT account);
 	void addBuddyChatDialog(UINT nUTalkUin, BuddyChatDialog* temp);
-
+	std::wstring stringToWstring(const std::string& str);
 	void setBuddyIfo(Json::Value& root);
 
-
+	std::map<UINT, buddyInfo>* getBuddyIfo();
+	void deleteBuddyDlgByAccount(UINT account);
 
 private:
 	Socket           socket;

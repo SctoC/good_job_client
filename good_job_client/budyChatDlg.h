@@ -23,18 +23,20 @@ public:
     BEGIN_MSG_MAP_EX(BuddyChatDialog)
         MESSAGE_HANDLER(WM_INITDIALOG, OnInitDialog)
         MESSAGE_HANDLER(WM_DESTROY, OnDestroy)
+        MESSAGE_HANDLER(WM_CLOSE, OnClose)
         COMMAND_HANDLER(IDC_BUTTON1, BN_CLICKED, OnBnClickedButton1)
         // 添加其他消息处理程序
     END_MSG_MAP()
 
     LRESULT OnInitDialog(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled);
+    LRESULT OnClose(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled);
     LRESULT OnDestroy(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled);
     // 按钮点击事件处理程序
     LRESULT OnBnClickedButton1(WORD wNotifyCode, WORD wID, HWND hWndCtl, BOOL& bHandled);
     void CenterWindow(HWND hWnd);
 
     void AppendText(const CString& text);
-
+    CString GetCurrentTimeFormatted();
 public:
     UINT account;
     CString name;

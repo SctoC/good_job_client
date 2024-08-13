@@ -67,6 +67,18 @@ LRESULT CMainDlg::OnDestroy(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/,
 	return 0;
 }
 
+LRESULT CMainDlg::OnLoginResult(UINT, WPARAM, LPARAM lParam, BOOL&)
+{
+	bool* success = reinterpret_cast<bool*>(lParam);
+	if (*success)
+	{
+		updataBuddyList();
+		show_tab(true);
+	}
+	delete success;
+	return 0;
+}
+
 void CMainDlg::Init()
 {
 	tab_Init();
@@ -138,22 +150,6 @@ void CMainDlg::buddyList_Init()
 		CRect rcListCtrl(0, 200, rcClient.Width(), 200 + rcClient.Height() - 236);
 		m_BuddyListCtrl.Create(m_hWnd, rcListCtrl, NULL, WS_CHILD | WS_VISIBLE, NULL, ID_LISTCTRL_BUDDY);
 
-
-		int nTeamIndex = m_BuddyListCtrl.AddBuddyTeam(0);
-		m_BuddyListCtrl.SetBuddyTeamName(nTeamIndex, _T("Team Alpha"));
-	/*	m_BuddyListCtrl.SetBuddyTeamCurCnt(nTeamIndex, nOnlineBuddyCount);
-		m_BuddyListCtrl.SetBuddyTeamExpand(nTeamIndex, aryTeamExpandStatus[i]);*/
-
-
-		int nIndex = m_BuddyListCtrl.AddBuddyItem(nTeamIndex, 54930);
-		m_BuddyListCtrl.SetBuddyItemUTalkNum(nTeamIndex, nIndex, _T("UTalkNum"));
-		m_BuddyListCtrl.SetBuddyItemNickName(nTeamIndex, nIndex, _T("NickName"));
-		m_BuddyListCtrl.SetBuddyItemMarkName(nTeamIndex, nIndex, _T("MarkName"));
-
-		nIndex = m_BuddyListCtrl.AddBuddyItem(nTeamIndex, 54935);
-		m_BuddyListCtrl.SetBuddyItemUTalkNum(nTeamIndex, nIndex, _T("UTalkNum1"));
-		m_BuddyListCtrl.SetBuddyItemNickName(nTeamIndex, nIndex, _T("NickName1"));
-		m_BuddyListCtrl.SetBuddyItemMarkName(nTeamIndex, nIndex, _T("MarkName1"));
 }
 
 void CMainDlg::show_tab(bool isMain)
@@ -167,10 +163,52 @@ void CMainDlg::show_tab(bool isMain)
 	GetDlgItem(IDC_STATIC).ShowWindow(IsLoging);
 	Invalidate();
 }
+void CMainDlg::updataBuddyList()
+{
+	int nTeamIndex = m_BuddyListCtrl.AddBuddyTeam(0);
+	m_BuddyListCtrl.SetBuddyTeamName(nTeamIndex, _T("我的好友"));
+	/*	m_BuddyListCtrl.SetBuddyTeamCurCnt(nTeamIndex, nOnlineBuddyCount);
+		m_BuddyListCtrl.SetBuddyTeamExpand(nTeamIndex, aryTeamExpandStatus[i]);*/
+
+	std::map<UINT, buddyInfo>* buddyIfos=AppModel->getBuddyIfo();
+
+	for (auto& buddy : (*buddyIfos))
+	{
+		int nIndex = m_BuddyListCtrl.AddBuddyItem(nTeamIndex, buddy.first);
+		m_BuddyListCtrl.SetBuddyItemMarkName(nTeamIndex, nIndex, buddy.second.getName());
+	}
+
+	Invalidate();
+}
 
 
 void CMainDlg::CloseDialog(int nVal)
 {
 	DestroyWindow();
 	::PostQuitMessage(nVal);
+}
+
+LRESULT CMainDlg::OnBuddyListDblClk(LPNMHDR pnmh)
+{
+	int nTeamIndex, nIndex;
+	m_BuddyListCtrl.GetCurSelIndex(nTeamIndex, nIndex);
+
+	if (nTeamIndex != -1 && nIndex != -1)
+	{
+		UINT account = m_BuddyListCtrl.GetBuddyItemID(nTeamIndex, nIndex);
+		if (!AppModel->getBuddyChatDialog(account))
+		{
+			BuddyChatDialog* temp = new BuddyChatDialog(account, AppModel->getBuddyNameByAccount(account));
+			// 创建对话框窗口（非模态）
+			if (temp->Create(nullptr) == NULL) {
+				// 如果创建失败，删除对话框指针
+				delete temp;
+				return 0;
+			}
+			// 显示对话框
+			temp->ShowWindow(SW_SHOW);
+			AppModel->addBuddyChatDialog(account, temp);
+		}
+	}
+	return 0;
 }

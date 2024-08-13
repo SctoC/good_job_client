@@ -50,10 +50,17 @@ ApplicationModel::ApplicationModel() :sendRequestThread(&socket) {}
 		int result = WideCharToMultiByte(CP_UTF8, 0, wbuf, -1, utf8Str, bufferSize, nullptr, nullptr);
 		return utf8Str;
 	}
+	std::wstring ApplicationModel::stringToWstring(const std::string& str) {
+		int size_needed = MultiByteToWideChar(CP_UTF8, 0, str.c_str(), (int)str.length(), NULL, 0);
+		std::wstring wideString(size_needed, 0);
+		MultiByteToWideChar(CP_UTF8, 0, str.c_str(), (int)str.length(), &wideString[0], size_needed);
+		return wideString;
+	}
 	CString ApplicationModel::getBuddyNameByAccount(UINT account)
 	{
 		return map_account_buddy[account].getName();
 	}
+	
 	void ApplicationModel::addBuddyChatDialog(UINT nUTalkUin, BuddyChatDialog* temp)
 	{
 		map_account_chatDlg[nUTalkUin] = temp;
@@ -63,9 +70,21 @@ ApplicationModel::ApplicationModel() :sendRequestThread(&socket) {}
 	{
 		for (const auto& buddy : root) {
 			int account = std::stoi(buddy["account"].asString());
-			CString name(buddy["name"].asString().c_str());
+			
+			CString name(stringToWstring(buddy["name"].asString()).c_str());
 			map_account_buddy[account] = buddyInfo(name);
 		}
+	}
+
+	std::map<UINT, buddyInfo>* ApplicationModel::getBuddyIfo()
+	{
+			return &map_account_buddy;
+	}
+
+	void ApplicationModel::deleteBuddyDlgByAccount(UINT account)
+	{
+		if(map_account_chatDlg.find(account)!= map_account_chatDlg.end())
+			map_account_chatDlg.erase(account);
 	}
 
 

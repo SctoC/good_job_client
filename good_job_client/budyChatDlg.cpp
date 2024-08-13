@@ -2,6 +2,9 @@
 #pragma once
 #include "stdafx.h"
 #include "budyChatDlg.h"
+#include "ApplicationModel.h"
+#include <chrono>
+#include <iomanip>
 // 对话框类
 
    BuddyChatDialog::BuddyChatDialog(UINT& _account, CString& _name) :account(_account), name(_name) {};
@@ -30,12 +33,16 @@
     }
     LRESULT BuddyChatDialog::OnDestroy(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled)
     {
+        AppModel->deleteBuddyDlgByAccount(account);
         // 解除控件的附加
         m_editBox.Detach();
         m_staticText.Detach();
         m_button.Detach();
         m_richEditBox.Detach();
+        
+        bHandled = TRUE; // 表示消息已被处理
         return 0;
+ 
     }
     // 按钮点击事件处理程序
     LRESULT BuddyChatDialog::OnBnClickedButton1(WORD wNotifyCode, WORD wID, HWND hWndCtl, BOOL& bHandled)
@@ -90,10 +97,33 @@
         // 设置选择范围到末尾
         m_richEditBox.SetSel(length, length);
 
-        CString newText = text + _T("\r\n");
+        CString newText = + _T("我:")+text + _T(" ") + GetCurrentTimeFormatted() + _T("\r\n");
 
         m_richEditBox.ReplaceSel(newText);
         m_richEditBox.LineScroll(m_richEditBox.GetLineCount());
         m_richEditBox.SendMessage(WM_VSCROLL, MAKEWPARAM(SB_BOTTOM, 0), 0);
     }
+    CString BuddyChatDialog::GetCurrentTimeFormatted() {
+        // 获取当前系统时间
+        auto now = std::chrono::system_clock::now();
+        auto in_time_t = std::chrono::system_clock::to_time_t(now);
+
+        // 将time_t转换为tm结构
+        struct tm buf;
+        localtime_s(&buf, &in_time_t);
+
+        // 使用ostringstream来格式化时间
+        std::ostringstream ss;
+        ss << std::put_time(&buf, "%H:%M:%S");
+
+        // 创建一个CString
+        CString formattedTime(ss.str().c_str());
+        return formattedTime;
+    }
+    LRESULT  BuddyChatDialog::OnClose(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled)
+    {
+        DestroyWindow();  // 销毁对话框
+        return 0;
+    }
+
 
