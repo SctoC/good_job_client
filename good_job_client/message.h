@@ -2,8 +2,10 @@
 #include<string>
 
 #define LogInQuest 1
+#define LogInAck 1
 
 #define sendMessageQuest 2
+#define buddyMessage 2
 
 class Request
 {

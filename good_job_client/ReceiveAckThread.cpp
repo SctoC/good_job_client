@@ -29,11 +29,9 @@ void ReceiveAckThread::AddAck(std::string ackData)
 }
 void ReceiveAckThread::receive_threadfuntion()
 {
-
 	//存在死锁问题
 	while (!_stop)
 	{
-		
 		bool is_unlock;
 		mtx.lock();
 		is_unlock = true;
@@ -68,8 +66,11 @@ void ReceiveAckThread::HandleAck(std::string& jsonData )
 	//这里可以考虑用多态
 	switch (type)
 	{
-	case 1:
+	case LogInAck:
 		HandleLogInAck(root);
+		break;
+	case buddyMessage:
+		HandleBuddyMessage(root);
 		break;
 	default:
 		break;
@@ -81,7 +82,12 @@ void ReceiveAckThread::HandleLogInAck(Json::Value& root)
 	if (*isSuccess)
 	{
 		AppModel->setBuddyIfo(root["buddys"]);
+		AppModel->setGroupIfo(root["groups"]);
 	}
-	Sleep(2000);
+	Sleep(1000);
     PostMessage(_mainDlgHwnd, WM_USER_LOGIN_ACK, 0, reinterpret_cast<LPARAM>(isSuccess));
+}
+void ReceiveAckThread::HandleBuddyMessage(Json::Value& root)
+{
+	AppModel->submitChatDlg(root);
 }

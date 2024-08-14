@@ -29,10 +29,14 @@ public:
 	void addBuddyChatDialog(UINT nUTalkUin, BuddyChatDialog* temp);
 	std::wstring stringToWstring(const std::string& str);
 	void setBuddyIfo(Json::Value& root);
+	void setGroupIfo(Json::Value& root);
 	void setAccount(CString _account);
 	CString getAccount();
 	std::map<UINT, buddyInfo>* getBuddyIfo();
+	std::map<UINT, groupInfo>* getGroupIfo();
 	void deleteBuddyDlgByAccount(UINT account);
+
+	void submitChatDlg(Json::Value& root);
 
 private:
 	CString current_account;
@@ -40,6 +44,7 @@ private:
 	SendRequestTread sendRequestThread;
 	std::map<UINT, BuddyChatDialog*> map_account_chatDlg;
 	std::map<UINT, buddyInfo> map_account_buddy;
+	std::map<UINT, groupInfo> map_groupId_group;
 
 };
 

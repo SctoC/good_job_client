@@ -110,6 +110,7 @@
         m_richEditBox.LineScroll(m_richEditBox.GetLineCount());
         m_richEditBox.SendMessage(WM_VSCROLL, MAKEWPARAM(SB_BOTTOM, 0), 0);
     }
+
     CString BuddyChatDialog::GetCurrentTimeFormatted() {
         // 获取当前系统时间
         auto now = std::chrono::system_clock::now();
@@ -133,4 +134,20 @@
         return 0;
     }
 
+    void BuddyChatDialog::appandBuddyMessage(std::string& send_account, std::string& message)
+    {
+        // 获取控件内容的末尾位置
+        LONG length = m_richEditBox.GetWindowTextLength();
 
+        // 设置选择范围到末尾
+        m_richEditBox.SetSel(length, length);
+
+        CString name = AppModel->getBuddyNameByAccount(std::stoul(send_account));
+        CString content(AppModel->stringToWstring(message).c_str());
+        CString newText = name + content+ _T("\r\n");
+
+        m_richEditBox.ReplaceSel(newText);
+        m_richEditBox.LineScroll(m_richEditBox.GetLineCount());
+        m_richEditBox.SendMessage(WM_VSCROLL, MAKEWPARAM(SB_BOTTOM, 0), 0);
+
+    }

@@ -33,6 +33,8 @@ public:
 
 	void HandleLogInAck(Json::Value& root);
 
+	void HandleBuddyMessage(Json::Value& root);
+
 	std::thread receAckThread;
 
 	//可以优化成智能指针

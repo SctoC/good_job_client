@@ -87,10 +87,31 @@ ApplicationModel::ApplicationModel() :sendRequestThread(&socket) {}
 	void ApplicationModel::setBuddyIfo(Json::Value& root)
 	{
 		for (const auto& buddy : root) {
-			int account = std::stoi(buddy["account"].asString());
+			UINT account = std::stoi(buddy["account"].asString());
 			
 			CString name(stringToWstring(buddy["name"].asString()).c_str());
 			map_account_buddy[account] = buddyInfo(name);
+		}
+	}
+	//group["groupId"] = row[0];//群聊ID
+	//group["groupName"] = row[1];//群聊昵称
+	//group["members"] = buddys;//群成员
+	//   buddy["account"] = row[0];//群成员账号
+	//   buddy["Name"] = row[1];//群成员昵称
+	void ApplicationModel::setGroupIfo(Json::Value& root)
+	{
+		for (const auto& group : root) {
+			UINT groupId = std::stoi(group["groupId"].asString());
+			CString groupName(stringToWstring(group["groupName"].asString()).c_str());
+			groupInfo group_temp(groupName);
+
+			for (const auto& member : group["members"]) {
+				CString account(stringToWstring(member["account"].asString()).c_str());
+				CString Name(stringToWstring(member["Name"].asString()).c_str());
+				group_temp.members_push(buddyInfoWithAccount(account, Name));
+			}
+
+			map_groupId_group[groupId] = group_temp;
 		}
 	}
 
@@ -107,6 +128,10 @@ ApplicationModel::ApplicationModel() :sendRequestThread(&socket) {}
 	{
 			return &map_account_buddy;
 	}
+	std::map<UINT, groupInfo>* ApplicationModel::getGroupIfo()
+	{
+		return &map_groupId_group;
+	}
 
 	void ApplicationModel::deleteBuddyDlgByAccount(UINT account)
 	{
@@ -114,4 +139,17 @@ ApplicationModel::ApplicationModel() :sendRequestThread(&socket) {}
 			map_account_chatDlg.erase(account);
 	}
 
+	void ApplicationModel::submitChatDlg(Json::Value& root)
+	{
+		std::string send_account = root["send_account"].asString();
+		std::string content = root["content"].asString();
+		std::string time = root["time"].asString();
 
+		std::string message =":" + content + " " + time;
+
+		auto it = map_account_chatDlg.find(std::stoul(send_account));
+		if ( it!= map_account_chatDlg.end())
+		{
+			it->second->appandBuddyMessage(send_account, message);
+		}
+	}

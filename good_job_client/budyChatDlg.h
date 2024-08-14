@@ -37,6 +37,7 @@ public:
 
     void AppendText(const CString& text);
     CString GetCurrentTimeFormatted();
+    void appandBuddyMessage(std::string& send_account, std::string& message);
 public:
     UINT account;
     CString name;
