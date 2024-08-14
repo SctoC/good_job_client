@@ -19,6 +19,10 @@ class buddyInfoWithAccount: public buddyInfo
 public:
 	buddyInfoWithAccount() {}
 	buddyInfoWithAccount(CString _account, CString _name) :account(_account), buddyInfo(_name){}
+	CString getaccount()
+	{
+		return account;
+	}
 private:
 	CString account;
 };
@@ -34,6 +38,10 @@ public:
 	void members_push(buddyInfoWithAccount& member)
 	{
 		members.push_back(member);
+	}
+	std::vector<buddyInfoWithAccount>* get_members()
+	{
+		return &members;
 	}
 private:
 	CString name;

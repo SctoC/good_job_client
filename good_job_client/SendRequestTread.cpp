@@ -70,6 +70,9 @@ void SendRequestTread::HandleRequest(Request* Req)
 	case sendMessageQuest:
 		HandleSendMessageQuest((sendMessage_Request*)Req);
 		break;
+	case sendGroupMessageQuest:
+		HandleSendGroupMessageQuest((sendGroupMessage_Request*)Req);
+		break;
 	default:
 		break;
 	}
@@ -105,6 +108,35 @@ void SendRequestTread::HandleSendMessageQuest(sendMessage_Request* Req)
 
 	root["send_account"] = Req->send_account;
 	root["receive_account"] = Req->receive_account;
+	root["content"] = Req->content;
+	root["time"] = Req->time;
+	// 将 JSON 对象序列化为字符串
+	Json::StreamWriterBuilder writer;
+	std::string sendbuf1 = Json::writeString(writer, root);
+
+	//加入信息头长度
+	unsigned int size = sendbuf1.size();
+	//const char* message_len = (const char*)&size;
+	const char* message_len = reinterpret_cast<const char*>(&size);
+
+	std::string sendbuf(message_len, sizeof(size));
+	sendbuf += sendbuf1;
+
+
+	sendSocket->add_sendbuf(sendbuf);
+}
+void SendRequestTread::HandleSendGroupMessageQuest(sendGroupMessage_Request* Req)
+{
+	//构建json对象
+	Json::Value root;
+	root["type"] = sendGroupMessageQuest;
+
+	std::string send_account;
+	std::string group_id;
+	std::string content;
+	std::string time;
+	root["send_account"] = Req->send_account;
+	root["group_id"] = Req->group_id;
 	root["content"] = Req->content;
 	root["time"] = Req->time;
 	// 将 JSON 对象序列化为字符串

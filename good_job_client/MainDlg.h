@@ -27,6 +27,7 @@ public:
 		MESSAGE_HANDLER(WM_USER_LOGIN_ACK, OnLoginResult)
 		MESSAGE_HANDLER(WM_CLOSE, OnClose)
 		NOTIFY_HANDLER_EX(ID_LISTCTRL_BUDDY, NM_DBLCLK, OnBuddyListDblClk)		 //双击好友列表中的好友
+		NOTIFY_HANDLER_EX(ID_LISTCTRL_GROUP, NM_DBLCLK, OnGroupListDblClk)		 //双击好友列表中的好友
 		NOTIFY_HANDLER_EX(ID_TABCTRL_MAIN, TCN_SELCHANGE, OnTabCtrlSelChange)    //Tab选择改变
 	END_MSG_MAP() 
 
@@ -49,6 +50,7 @@ public:
 	void CloseDialog(int nVal);
 
 	LRESULT OnBuddyListDblClk(LPNMHDR pnmh);
+	LRESULT OnGroupListDblClk(LPNMHDR pnmh);
 
 	LRESULT OnTabCtrlSelChange(LPNMHDR pnmh);
 	void updataBuddyList();

@@ -105,6 +105,9 @@
     <ClCompile Include="budyChatDlg.cpp">
       <Filter>UI</Filter>
     </ClCompile>
+    <ClCompile Include="GroupChatDlg.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -214,6 +217,9 @@
     </ClInclude>
     <ClInclude Include="buddyInfo.h">
       <Filter>model</Filter>
+    </ClInclude>
+    <ClInclude Include="GroupChatDlg.h">
+      <Filter>UI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

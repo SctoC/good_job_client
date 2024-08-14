@@ -42,6 +42,25 @@ ApplicationModel::ApplicationModel() :sendRequestThread(&socket) {}
 		sendMessage_Request* t = new sendMessage_Request(sendMessageQuest, current_account_ubuf, buddyAccount_ubuf, content_ubuf, time_ubuf);//发送线程处理完后，会释放资源，但是改成智能指针更好。
 		sendRequestThread.AddRequest(static_cast<Request*>(t));
 	}
+	void ApplicationModel::sendGroupMessageRequest(CString& GroupId, CString& content, CString& time)
+	{
+			const wchar_t* current_account_wbuf = static_cast<const wchar_t*>(current_account);
+			const char* current_account_ubuf = unicodeToUtf_8(current_account_wbuf);
+
+			const wchar_t* GroupId_wbuf = static_cast<const wchar_t*>(GroupId);
+			const char* GroupId_ubuf = unicodeToUtf_8(GroupId_wbuf);
+
+			const wchar_t* content_wbuf = static_cast<const wchar_t*>(content);
+			const char* content_ubuf = unicodeToUtf_8(content_wbuf);
+
+			const wchar_t* time_wbuf = static_cast<const wchar_t*>(time);
+			const char* time_ubuf = unicodeToUtf_8(time_wbuf);
+
+			sendGroupMessage_Request* t = new sendGroupMessage_Request(sendMessageQuest, current_account_ubuf, GroupId_ubuf, content_ubuf, time_ubuf);//发送线程处理完后，会释放资源，但是改成智能指针更好。
+			
+			sendRequestThread.AddRequest(static_cast<Request*>(t));
+
+	}
 	void ApplicationModel::setMaindlgHwnd(HWND mainDlgHwnd)
 	{
 		socket.setMaindlgHwnd(mainDlgHwnd);
@@ -52,6 +71,15 @@ ApplicationModel::ApplicationModel() :sendRequestThread(&socket) {}
 			return true;
 		return false;
 	}
+	bool ApplicationModel::getGroupChatDialog(UINT groupId)
+	{
+		if (map_groupID_chatDlg.find(groupId) != map_groupID_chatDlg.end())
+			return true;
+		return false;
+	}
+
+
+
 	const char* ApplicationModel::unicodeToUtf_8(const wchar_t* wbuf)
 	{
 		//计算需要多大的缓冲区
@@ -78,12 +106,21 @@ ApplicationModel::ApplicationModel() :sendRequestThread(&socket) {}
 	{
 		return map_account_buddy[account].getName();
 	}
+
+	CString ApplicationModel::getGroupNameByGroupId(UINT GroupId)
+	{
+		return map_groupId_group[GroupId].getName();
+	}
 	
 	void ApplicationModel::addBuddyChatDialog(UINT nUTalkUin, BuddyChatDialog* temp)
 	{
 		map_account_chatDlg[nUTalkUin] = temp;
 	}
-
+	void ApplicationModel::addGroupChatDialog(UINT nUTalkUin, GroupChatDialog* temp)
+	{
+		map_groupID_chatDlg[nUTalkUin] = temp;
+	}
+	
 	void ApplicationModel::setBuddyIfo(Json::Value& root)
 	{
 		for (const auto& buddy : root) {
@@ -128,9 +165,13 @@ ApplicationModel::ApplicationModel() :sendRequestThread(&socket) {}
 	{
 			return &map_account_buddy;
 	}
-	std::map<UINT, groupInfo>* ApplicationModel::getGroupIfo()
+	std::map<UINT, groupInfo>* ApplicationModel::getGroupsIfo()
 	{
 		return &map_groupId_group;
+	}
+	groupInfo* ApplicationModel::getGroupIfoByGroupId(UINT GroupId)
+	{
+		return &map_groupId_group[GroupId];
 	}
 
 	void ApplicationModel::deleteBuddyDlgByAccount(UINT account)
@@ -138,7 +179,11 @@ ApplicationModel::ApplicationModel() :sendRequestThread(&socket) {}
 		if(map_account_chatDlg.find(account)!= map_account_chatDlg.end())
 			map_account_chatDlg.erase(account);
 	}
-
+	void ApplicationModel::deleteGroupDlgByGroupID(UINT groupID)
+	{
+		if (map_groupID_chatDlg.find(groupID) != map_groupID_chatDlg.end())
+			map_groupID_chatDlg.erase(groupID);
+	}
 	void ApplicationModel::submitChatDlg(Json::Value& root)
 	{
 		std::string send_account = root["send_account"].asString();

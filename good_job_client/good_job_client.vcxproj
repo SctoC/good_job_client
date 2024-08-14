@@ -204,6 +204,7 @@
     <ClCompile Include="GDIFactory.cpp" />
     <ClCompile Include="GifImage.cpp" />
     <ClCompile Include="good_job_client.cpp" />
+    <ClCompile Include="GroupChatDlg.cpp" />
     <ClCompile Include="ImageEx.cpp" />
     <ClCompile Include="jsoncpp\json_reader.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
@@ -250,6 +251,7 @@
     <ClInclude Include="budyChatDlg.h" />
     <ClInclude Include="GDIFactory.h" />
     <ClInclude Include="GifImage.h" />
+    <ClInclude Include="GroupChatDlg.h" />
     <ClInclude Include="ImageEx.h" />
     <ClInclude Include="jsoncpp\allocator.h" />
     <ClInclude Include="jsoncpp\assertions.h" />

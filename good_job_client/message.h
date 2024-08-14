@@ -7,6 +7,9 @@
 #define sendMessageQuest 2
 #define buddyMessage 2
 
+#define sendGroupMessageQuest 3
+#define GroupMessage 3
+
 class Request
 {
 public:
@@ -31,4 +34,16 @@ public:
 	std::string content;
 	std::string time;
     
+};
+
+class sendGroupMessage_Request :public Request
+{
+public:
+	sendGroupMessage_Request(unsigned int _type, std::string _send_account, std::string _group_id, std::string _content, std::string _time) :Request(_type), send_account(_send_account), group_id{ _group_id }, content(_content), time(_time){}
+
+	std::string send_account;
+	std::string group_id;
+	std::string content;
+	std::string time;
+
 };

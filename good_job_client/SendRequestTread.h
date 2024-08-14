@@ -27,7 +27,7 @@ public:
 
 	void HandleLogInRequest(LogIn_Request* Req);
 	void HandleSendMessageQuest(sendMessage_Request* Req);
-
+	void HandleSendGroupMessageQuest(sendGroupMessage_Request* Req);
 	std::thread SendRequestThread;
 
 	//可以优化成智能指针

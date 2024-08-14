@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "MainDlg.h"
+#include "GroupChatDlg.h"
 
 BOOL CMainDlg::PreTranslateMessage(MSG* pMsg)
 {
@@ -229,7 +230,7 @@ void CMainDlg::updataGroupList()
 	/*	m_BuddyListCtrl.SetBuddyTeamCurCnt(nTeamIndex, nOnlineBuddyCount);
 		m_BuddyListCtrl.SetBuddyTeamExpand(nTeamIndex, aryTeamExpandStatus[i]);*/
 
-	std::map<UINT, groupInfo>* groupIfos = AppModel->getGroupIfo();
+	std::map<UINT, groupInfo>* groupIfos = AppModel->getGroupsIfo();
 
 	for (auto& group : (*groupIfos))
 	{
@@ -266,6 +267,32 @@ LRESULT CMainDlg::OnBuddyListDblClk(LPNMHDR pnmh)
 			// 显示对话框
 			temp->ShowWindow(SW_SHOW);
 			AppModel->addBuddyChatDialog(account, temp);
+		}
+	}
+	return 0;
+}
+
+LRESULT CMainDlg::OnGroupListDblClk(LPNMHDR pnmh)
+
+{
+	int nTeamIndex, nIndex;
+	m_GroupListCtrl.GetCurSelIndex(nTeamIndex, nIndex);
+
+	if (nTeamIndex != -1 && nIndex != -1)
+	{
+		UINT GroupId = m_GroupListCtrl.GetBuddyItemID(nTeamIndex, nIndex);
+		if (!AppModel->getGroupChatDialog(GroupId))
+		{
+			GroupChatDialog* temp = new GroupChatDialog(GroupId, AppModel->getGroupNameByGroupId(GroupId));
+			// 创建对话框窗口（非模态）
+			if (temp->Create(nullptr) == NULL) {
+				// 如果创建失败，删除对话框指针
+				delete temp;
+				return 0;
+			}
+			// 显示对话框
+			temp->ShowWindow(SW_SHOW);
+			AppModel->addGroupChatDialog(GroupId, temp);
 		}
 	}
 	return 0;
