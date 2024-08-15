@@ -34,6 +34,9 @@
     <Filter Include="jsoncpp">
       <UniqueIdentifier>{85c0c6f9-8843-4b3a-859d-95d93364c321}</UniqueIdentifier>
     </Filter>
+    <Filter Include="sqlite">
+      <UniqueIdentifier>{3bba5496-34f5-473f-a7a0-f6b6b5a0934a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -107,6 +110,12 @@
     </ClCompile>
     <ClCompile Include="GroupChatDlg.cpp">
       <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="SQLiteWrapper.cpp">
+      <Filter>sqlite</Filter>
+    </ClCompile>
+    <ClCompile Include="sqlite3.c">
+      <Filter>sqlite</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -220,6 +229,12 @@
     </ClInclude>
     <ClInclude Include="GroupChatDlg.h">
       <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="SQLiteWrapper.h">
+      <Filter>sqlite</Filter>
+    </ClInclude>
+    <ClInclude Include="sqlite3.h">
+      <Filter>sqlite</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

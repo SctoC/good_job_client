@@ -57,7 +57,9 @@
 
         // Convert UINT to CString
         CString account_s;
+        CString is_send= _T("1");
         account_s.Format(_T("%u"), account);
+        AppModel->saveBuddyMessage(is_send,account_s, name, text, GetCurrentTimeFormatted());
         AppModel->sendBuddyMessageRequest(account_s, text, GetCurrentTimeFormatted());
 
         // 处理按钮点击事件
@@ -144,6 +146,9 @@
 
         CString name = AppModel->getBuddyNameByAccount(std::stoul(send_account));
         CString content(AppModel->stringToWstring(message).c_str());
+
+
+
         CString newText = name + content+ _T("\r\n");
 
         m_richEditBox.ReplaceSel(newText);

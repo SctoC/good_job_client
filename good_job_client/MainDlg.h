@@ -53,6 +53,7 @@ public:
 	LRESULT OnGroupListDblClk(LPNMHDR pnmh);
 
 	LRESULT OnTabCtrlSelChange(LPNMHDR pnmh);
+
 	void updataBuddyList();
 	void updataGroupList();
 private:

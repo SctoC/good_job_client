@@ -19,6 +19,7 @@ public:
 	static ApplicationModel* getInstance();
 
 	bool initSocket(std::string& ipAddress, int& port);
+	void ApplicationModel::initDb();
 
 	void sendLoninRequest(CString& account, CString& pwd);
 	void sendBuddyMessageRequest(CString& buddyAccount, CString& content, CString& time);
@@ -51,6 +52,9 @@ public:
 	void submitGroupChatDlg(Json::Value& root);
 
 	CString get_current_account();
+
+	void saveBuddyMessage(CString& is_sent,CString& buddy_account, CString& buddy_name, CString&  text, CString& time);
+	void saveBuddyMessage(std::string& is_sent, std::string& buddy_account, CString& buddy_name, std::string& text, std::string& time);
 private:
 	CString current_account;
 	Socket           socket;
@@ -59,6 +63,8 @@ private:
 	std::map<UINT, GroupChatDialog*> map_groupID_chatDlg;
 	std::map<UINT, buddyInfo> map_account_buddy;
 	std::map<UINT, groupInfo> map_groupId_group;
+
+	std::string dbPath;
 
 };
 

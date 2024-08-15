@@ -86,6 +86,7 @@ void ReceiveAckThread::HandleLogInAck(Json::Value& root)
 	{
 		AppModel->setBuddyIfo(root["buddys"]);
 		AppModel->setGroupIfo(root["groups"]);
+		AppModel->initDb();
 	}
 	Sleep(1000);
     PostMessage(_mainDlgHwnd, WM_USER_LOGIN_ACK, 0, reinterpret_cast<LPARAM>(isSuccess));
@@ -93,6 +94,7 @@ void ReceiveAckThread::HandleLogInAck(Json::Value& root)
 void ReceiveAckThread::HandleBuddyMessage(Json::Value& root)
 {
 	AppModel->submitChatDlg(root);
+	
 }
 void ReceiveAckThread::HandleGroupMessage(Json::Value& root)
 {

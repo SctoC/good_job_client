@@ -1,7 +1,8 @@
 #pragma once
 #include "stdafx.h"
 #include "ApplicationModel.h"
-
+#include <filesystem>
+#include "SQLiteWrapper.h"
 ApplicationModel::ApplicationModel() :sendRequestThread(&socket) {}
 	
     ApplicationModel* ApplicationModel::getInstance()
@@ -78,6 +79,30 @@ ApplicationModel::ApplicationModel() :sendRequestThread(&socket) {}
 		return false;
 	}
 
+	void ApplicationModel::initDb()
+	{
+		// 创建子目录 'a'
+		const wchar_t* account_wbuf = static_cast<const wchar_t*>(current_account);
+		const char* account_ubuf = unicodeToUtf_8(account_wbuf);
+		std::filesystem::path dir = "./"+ std::string(account_ubuf);
+		if (!std::filesystem::exists(dir)) {
+			std::filesystem::create_directory(dir);
+		}
+		// 指定数据库路径并创建 SQLiteWrapper 对象
+		dbPath = dir.string() + "/chat_history.db";
+		SQLiteWrapper db(dbPath);
+		std::string sql =
+			"CREATE TABLE IF NOT EXISTS ChatHistory ("
+			"id INTEGER PRIMARY KEY AUTOINCREMENT, " // 自增的唯一标识符
+			"is_sent BOOLEAN NOT NULL, "             // 收/发送标志 (1: 发送, 0: 接收)
+			"friend_account VARCHAR(255) NOT NULL, " // 好友账号
+			"friend_name VARCHAR(255) NOT NULL, "    // 好友姓名
+			"message TEXT NOT NULL, "                // 聊天内容（无限长）
+			"timestamp VARCHAR(20) NOT NULL"         // 时间，使用 VARCHAR 存储，长度 20 字符
+			");";
+
+		db.execute(sql); // 假设你的 SQLiteWrapper 类中有一个 execute 函数来执行 SQL 语句
+	}
 
 
 	const char* ApplicationModel::unicodeToUtf_8(const wchar_t* wbuf)
@@ -190,6 +215,9 @@ ApplicationModel::ApplicationModel() :sendRequestThread(&socket) {}
 		std::string content = root["content"].asString();
 		std::string time = root["time"].asString();
 
+		std::string is_sent = "0";
+		AppModel->saveBuddyMessage(is_sent, send_account, AppModel->getBuddyNameByAccount(std::stoul(send_account)), content, time);
+		
 		std::string message =":" + content + " " + time;
 
 		auto it = map_account_chatDlg.find(std::stoul(send_account));
@@ -218,4 +246,86 @@ ApplicationModel::ApplicationModel() :sendRequestThread(&socket) {}
 	CString ApplicationModel::get_current_account()
 	{
 		return current_account;
+	}
+
+	void ApplicationModel::saveBuddyMessage(CString& is_sent,CString& buddy_account, CString& buddy_name, CString& text, CString& time) {
+
+		SQLiteWrapper db(dbPath); 
+
+		// 定义 SQL 插入语句，使用 ? 占位符作为参数
+		std::string sql = R"(
+        INSERT INTO ChatHistory (is_sent, friend_account, friend_name, message, timestamp)
+        VALUES (?, ?, ?, ?, ?);
+    )";
+		// 获取系统当前时间
+		SYSTEMTIME st;
+		GetLocalTime(&st);
+
+		// 格式化日期为 "YYYY.MM.DD" 形式
+		std::ostringstream oss;
+		oss << st.wYear << '.'
+			<< std::setw(2) << std::setfill('0') << st.wMonth << '.'
+			<< std::setw(2) << std::setfill('0') << st.wDay;
+
+		// 转换为字符串
+		std::string date_str = oss.str();
+		date_str += " ";
+		date_str += std::string(CT2A(time));
+
+		// 将 CString 转换为 std::string
+		std::vector<std::string> params;
+		params.push_back(std::string(CT2A(is_sent)));  // is_sent 固定为 1，表示发送
+		params.push_back(std::string(CT2A(buddy_account)));
+		params.push_back(std::string(CT2A(buddy_name)));
+		params.push_back(std::string(CT2A(text)));
+		params.push_back(date_str);
+
+		// 执行插入操作
+		if (!db.executeP(sql, params)) {
+			std::cerr << "Failed to insert data." << std::endl;
+		}
+		else {
+			std::cout << "Data inserted successfully." << std::endl;
+		}
+	}
+
+	void ApplicationModel::saveBuddyMessage(std::string& is_sent, std::string& buddy_account, CString& buddy_name, std::string& text, std::string& time) {
+
+		SQLiteWrapper db(dbPath);
+
+		// 定义 SQL 插入语句，使用 ? 占位符作为参数
+		std::string sql = R"(
+        INSERT INTO ChatHistory (is_sent, friend_account, friend_name, message, timestamp)
+        VALUES (?, ?, ?, ?, ?);
+    )";
+		// 获取系统当前时间
+		SYSTEMTIME st;
+		GetLocalTime(&st);
+
+		// 格式化日期为 "YYYY.MM.DD" 形式
+		std::ostringstream oss;
+		oss << st.wYear << '.'
+			<< std::setw(2) << std::setfill('0') << st.wMonth << '.'
+			<< std::setw(2) << std::setfill('0') << st.wDay;
+
+		// 转换为字符串
+		std::string date_str = oss.str();
+		date_str += " ";
+		date_str += time;
+
+		// 将 CString 转换为 std::string
+		std::vector<std::string> params;
+		params.push_back(is_sent);  // is_sent 固定为 1，表示发送
+		params.push_back(buddy_account);
+		params.push_back(std::string(CT2A(buddy_name)));
+		params.push_back(text);
+		params.push_back(date_str);
+
+		// 执行插入操作
+		if (!db.executeP(sql, params)) {
+			std::cerr << "Failed to insert data." << std::endl;
+		}
+		else {
+			std::cout << "Data inserted successfully." << std::endl;
+		}
 	}
