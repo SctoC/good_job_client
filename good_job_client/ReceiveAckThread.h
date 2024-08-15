@@ -35,6 +35,8 @@ public:
 
 	void HandleBuddyMessage(Json::Value& root);
 
+	void HandleGroupMessage(Json::Value& root);
+
 	std::thread receAckThread;
 
 	//可以优化成智能指针

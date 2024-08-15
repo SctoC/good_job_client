@@ -48,7 +48,9 @@ public:
 	void deleteBuddyDlgByAccount(UINT account);
 	void deleteGroupDlgByGroupID(UINT groupID);
 	void submitChatDlg(Json::Value& root);
+	void submitGroupChatDlg(Json::Value& root);
 
+	CString get_current_account();
 private:
 	CString current_account;
 	Socket           socket;

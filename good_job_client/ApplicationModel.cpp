@@ -56,7 +56,7 @@ ApplicationModel::ApplicationModel() :sendRequestThread(&socket) {}
 			const wchar_t* time_wbuf = static_cast<const wchar_t*>(time);
 			const char* time_ubuf = unicodeToUtf_8(time_wbuf);
 
-			sendGroupMessage_Request* t = new sendGroupMessage_Request(sendMessageQuest, current_account_ubuf, GroupId_ubuf, content_ubuf, time_ubuf);//发送线程处理完后，会释放资源，但是改成智能指针更好。
+			sendGroupMessage_Request* t = new sendGroupMessage_Request(sendGroupMessageQuest, current_account_ubuf, GroupId_ubuf, content_ubuf, time_ubuf);//发送线程处理完后，会释放资源，但是改成智能指针更好。
 			
 			sendRequestThread.AddRequest(static_cast<Request*>(t));
 
@@ -197,4 +197,25 @@ ApplicationModel::ApplicationModel() :sendRequestThread(&socket) {}
 		{
 			it->second->appandBuddyMessage(send_account, message);
 		}
+	}
+
+	void ApplicationModel::submitGroupChatDlg(Json::Value& root)
+	{
+		std::string send_account = root["send_account"].asString();
+		std::string content = root["content"].asString();
+		std::string time = root["time"].asString();
+		std::string group_id= root["group_id"].asString();
+	
+		std::string message = ":" + content + " " + time;
+
+		auto it = map_groupID_chatDlg.find(std::stoul(group_id));
+		if (it != map_groupID_chatDlg.end())
+		{
+			it->second->appandGroupMessage(send_account, message);
+		}
+	}
+
+	CString ApplicationModel::get_current_account()
+	{
+		return current_account;
 	}

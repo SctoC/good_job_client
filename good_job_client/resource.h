@@ -18,12 +18,12 @@
 #define IDC_BUTTON2                     1006
 #define IDC_EDIT2                       1007
 #define IDC_RICHEDIT21                  1011
-#define IDC_LIST1                       1012
 #define IDC_EDIT_group                  1013
 #define IDC_RICHEDIT21_group            1014
 #define IDC_BUTTON1_group               1016
 #define IDC_STATIC_group                1017
 #define IDC_LISTBOX_group               1018
+#define IDC_STATIC2_group               1019
 
 // Next default values for new objects
 // 
@@ -31,7 +31,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        212
 #define _APS_NEXT_COMMAND_VALUE         32775
-#define _APS_NEXT_CONTROL_VALUE         1019
+#define _APS_NEXT_CONTROL_VALUE         1020
 #define _APS_NEXT_SYMED_VALUE           104
 #endif
 #endif

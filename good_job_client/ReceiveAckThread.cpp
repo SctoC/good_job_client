@@ -72,6 +72,9 @@ void ReceiveAckThread::HandleAck(std::string& jsonData )
 	case buddyMessage:
 		HandleBuddyMessage(root);
 		break;
+	case GroupMessage:
+		HandleGroupMessage(root);
+		break;
 	default:
 		break;
 	}
@@ -90,4 +93,8 @@ void ReceiveAckThread::HandleLogInAck(Json::Value& root)
 void ReceiveAckThread::HandleBuddyMessage(Json::Value& root)
 {
 	AppModel->submitChatDlg(root);
+}
+void ReceiveAckThread::HandleGroupMessage(Json::Value& root)
+{
+	AppModel->submitGroupChatDlg(root);
 }

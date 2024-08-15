@@ -137,7 +137,7 @@ void Socket::receive_funtion()
 					m_strReceiveBuf.erase(0, toBeByteNum);
 					//接下来接收数据长度
 					toBeIsDataLen = true;
-					toBeIsDataLen = 4;
+					toBeByteNum = 4;
 					//将数据发送给接收应答消息线程处理
 					revAckThread.AddAck(jsonData);
 				}

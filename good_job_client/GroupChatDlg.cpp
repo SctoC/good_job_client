@@ -26,10 +26,11 @@ LRESULT GroupChatDialog::OnInitDialog(UINT uMsg, WPARAM wParam, LPARAM lParam, B
     m_button.Attach(GetDlgItem(IDC_BUTTON1_group));
     m_richEditBox.Attach(GetDlgItem(IDC_RICHEDIT21_group));
     m_listBox.Attach(GetDlgItem(IDC_LISTBOX_group));
+    m_staticText_userName.Attach(GetDlgItem(IDC_STATIC2_group));
 
     m_richEditBox.SetReadOnly(TRUE);
     m_staticText.SetWindowText(name);
-
+    m_staticText_userName.SetWindowText(AppModel->get_current_account());
 
     InitMemberList();
     /*m_richEditBox.EnableWindow(FALSE);*/
@@ -74,11 +75,10 @@ LRESULT GroupChatDialog::OnBnClickedButton1(WORD wNotifyCode, WORD wID, HWND hWn
 
     AppendText(text);
 
-
     // Convert UINT to CString
     CString account_s;
     account_s.Format(_T("%u"), account);
-    AppModel->sendBuddyMessageRequest(account_s, text, GetCurrentTimeFormatted());
+    AppModel->sendGroupMessageRequest(account_s, text, GetCurrentTimeFormatted());
 
     // 处理按钮点击事件
     return 0;
@@ -154,7 +154,7 @@ LRESULT  GroupChatDialog::OnClose(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL&
     return 0;
 }
 
-void GroupChatDialog::appandBuddyMessage(std::string& send_account, std::string& message)
+void GroupChatDialog::appandGroupMessage(std::string& send_account, std::string& message)
 {
     // 获取控件内容的末尾位置
     LONG length = m_richEditBox.GetWindowTextLength();

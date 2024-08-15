@@ -25,7 +25,7 @@ public:
         MESSAGE_HANDLER(WM_INITDIALOG, OnInitDialog)
         MESSAGE_HANDLER(WM_DESTROY, OnDestroy)
         MESSAGE_HANDLER(WM_CLOSE, OnClose)
-        COMMAND_HANDLER(IDC_BUTTON1, BN_CLICKED, OnBnClickedButton1)
+        COMMAND_HANDLER(IDC_BUTTON1_group, BN_CLICKED, OnBnClickedButton1)
         // 添加其他消息处理程序
         END_MSG_MAP()
 
@@ -38,13 +38,14 @@ public:
 
     void AppendText(const CString& text);
     CString GetCurrentTimeFormatted();
-    void appandBuddyMessage(std::string& send_account, std::string& message);
+    void appandGroupMessage(std::string& send_account, std::string& message);
     void InitMemberList();
 public:
     UINT account;
     CString name;
     CEdit m_editBox;
     CStatic m_staticText;
+    CStatic m_staticText_userName;
     CButton m_button;
     CRichEditCtrl m_richEditBox;
     CListBox m_listBox;
