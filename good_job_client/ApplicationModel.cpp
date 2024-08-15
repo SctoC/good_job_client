@@ -91,6 +91,7 @@ ApplicationModel::ApplicationModel() :sendRequestThread(&socket) {}
 		// 指定数据库路径并创建 SQLiteWrapper 对象
 		dbPath = dir.string() + "/chat_history.db";
 		SQLiteWrapper db(dbPath);
+		//创建好友聊天记录表
 		std::string sql =
 			"CREATE TABLE IF NOT EXISTS ChatHistory ("
 			"id INTEGER PRIMARY KEY AUTOINCREMENT, " // 自增的唯一标识符
@@ -101,9 +102,18 @@ ApplicationModel::ApplicationModel() :sendRequestThread(&socket) {}
 			"timestamp VARCHAR(20) NOT NULL"         // 时间，使用 VARCHAR 存储，长度 20 字符
 			");";
 
+		//创建群聊天记录表
+		std::string sql1 = R"(
+        CREATE TABLE IF NOT EXISTS GroupChatRecords (
+            GroupID VARCHAR(50) NOT NULL,         -- 群ID，使用VARCHAR类型，最大长度为50个字符
+            Sender VARCHAR(255) NOT NULL,         -- 发送者，最大长度为255个字符
+            Content TEXT NOT NULL,                -- 内容，TEXT类型允许存储较长的文本
+            Time VARCHAR(50) NOT NULL             -- 时间，使用字符串类型存储，长度50字符（例如：2024.07.21 12:34:56）
+        );
+    )";
 		db.execute(sql); // 假设你的 SQLiteWrapper 类中有一个 execute 函数来执行 SQL 语句
+		db.execute(sql1); // 假设你的 SQLiteWrapper 类中有一个 execute 函数来执行 SQL 语句
 	}
-
 
 	const char* ApplicationModel::unicodeToUtf_8(const wchar_t* wbuf)
 	{
@@ -236,6 +246,9 @@ ApplicationModel::ApplicationModel() :sendRequestThread(&socket) {}
 	
 		std::string message = ":" + content + " " + time;
 
+		AppModel->saveGroupMessage(group_id, send_account,content,time);
+
+
 		auto it = map_groupID_chatDlg.find(std::stoul(group_id));
 		if (it != map_groupID_chatDlg.end())
 		{
@@ -319,6 +332,87 @@ ApplicationModel::ApplicationModel() :sendRequestThread(&socket) {}
 		params.push_back(buddy_account);
 		params.push_back(std::string(CT2A(buddy_name)));
 		params.push_back(text);
+		params.push_back(date_str);
+
+		// 执行插入操作
+		if (!db.executeP(sql, params)) {
+			std::cerr << "Failed to insert data." << std::endl;
+		}
+		else {
+			std::cout << "Data inserted successfully." << std::endl;
+		}
+	}
+
+	void ApplicationModel::saveGroupMessage(CString& groupId, CString& Content, CString& time) {
+
+		SQLiteWrapper db(dbPath);
+
+		// 定义 SQL 插入语句，使用 ? 占位符作为参数
+		std::string sql = R"(
+        INSERT INTO GroupChatRecords (GroupID, Sender, Content, Time)
+        VALUES (?, ?, ?, ?);
+    )";
+		// 获取系统当前时间
+		SYSTEMTIME st;
+		GetLocalTime(&st);
+
+		// 格式化日期为 "YYYY.MM.DD" 形式
+		std::ostringstream oss;
+		oss << st.wYear << '.'
+			<< std::setw(2) << std::setfill('0') << st.wMonth << '.'
+			<< std::setw(2) << std::setfill('0') << st.wDay;
+
+		// 转换为字符串
+		std::string date_str = oss.str();
+		date_str += " ";
+		date_str += std::string(CT2A(time));
+
+		// 将 CString 转换为 std::string
+		std::vector<std::string> params;
+		params.push_back(std::string(CT2A(groupId)));  // is_sent 固定为 1，表示发送
+		params.push_back(std::string(CT2A(current_account)));
+		params.push_back(std::string(CT2A(Content)));
+		params.push_back(date_str);
+
+		// 执行插入操作
+		if (!db.executeP(sql, params)) {
+			std::cerr << "Failed to insert data." << std::endl;
+		}
+		else {
+			std::cout << "Data inserted successfully." << std::endl;
+		}
+	}
+
+	void ApplicationModel::saveGroupMessage(std::string& group_id, std::string& send_account, std::string& content, std::string& time)
+	{
+
+		SQLiteWrapper db(dbPath);
+
+		// 定义 SQL 插入语句，使用 ? 占位符作为参数
+		std::string sql = R"(
+        INSERT INTO GroupChatRecords (GroupID, Sender, Content, Time)
+        VALUES (?, ?, ?, ?);
+    )";
+		// 获取系统当前时间
+		SYSTEMTIME st;
+		GetLocalTime(&st);
+
+		// 格式化日期为 "YYYY.MM.DD" 形式
+		std::ostringstream oss;
+		oss << st.wYear << '.'
+			<< std::setw(2) << std::setfill('0') << st.wMonth << '.'
+			<< std::setw(2) << std::setfill('0') << st.wDay;
+
+		// 转换为字符串
+		std::string date_str = oss.str();
+		date_str += " ";
+		date_str += time;
+
+		// 将 CString 转换为 std::string
+		std::vector<std::string> params;
+		params.push_back(group_id); // is_sent 固定为 1，表示发送
+		params.push_back(send_account);
+		params.push_back(content);
 		params.push_back(date_str);
 
 		// 执行插入操作

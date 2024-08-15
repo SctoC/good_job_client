@@ -19,7 +19,7 @@ public:
 	static ApplicationModel* getInstance();
 
 	bool initSocket(std::string& ipAddress, int& port);
-	void ApplicationModel::initDb();
+	void initDb();
 
 	void sendLoninRequest(CString& account, CString& pwd);
 	void sendBuddyMessageRequest(CString& buddyAccount, CString& content, CString& time);
@@ -55,6 +55,8 @@ public:
 
 	void saveBuddyMessage(CString& is_sent,CString& buddy_account, CString& buddy_name, CString&  text, CString& time);
 	void saveBuddyMessage(std::string& is_sent, std::string& buddy_account, CString& buddy_name, std::string& text, std::string& time);
+	void saveGroupMessage(CString& groupId, CString& Content, CString& time);
+	void saveGroupMessage(std::string& group_id, std::string& send_account, std::string& content, std::string& time);
 private:
 	CString current_account;
 	Socket           socket;

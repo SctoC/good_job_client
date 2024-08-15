@@ -78,6 +78,8 @@ LRESULT GroupChatDialog::OnBnClickedButton1(WORD wNotifyCode, WORD wID, HWND hWn
     // Convert UINT to CString
     CString account_s;
     account_s.Format(_T("%u"), account);
+
+    AppModel->saveGroupMessage(account_s, text, GetCurrentTimeFormatted());
     AppModel->sendGroupMessageRequest(account_s, text, GetCurrentTimeFormatted());
 
     // 处理按钮点击事件
